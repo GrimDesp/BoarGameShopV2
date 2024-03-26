@@ -27,5 +27,11 @@
         [Required, ForeignKey(nameof(PublisherId))]
         [InverseProperty(nameof(Publisher.BoardGames))]
         public Publisher PublisherNavigation { get; set; } = new();
+        public List<int>? DesignerIds { get; set; }
+        public List<int>? ArtistIds { get; set; }
+        [ForeignKey(nameof(DesignerIds))]
+        public List<Author>? Designers { get; set; }
+        [ForeignKey(nameof(ArtistIds))]
+        public List<Artist>? Artists { get; set; }
     }
 }

@@ -22,6 +22,36 @@ namespace BoarGameShop.Api.EFStructures.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ArtistBoardGame", b =>
+                {
+                    b.Property<int>("ArtistIds")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ArtistsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArtistIds", "ArtistsId");
+
+                    b.HasIndex("ArtistsId");
+
+                    b.ToTable("ArtistBoardGame");
+                });
+
+            modelBuilder.Entity("AuthorBoardGame", b =>
+                {
+                    b.Property<int>("DesignerIds")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DesignersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DesignerIds", "DesignersId");
+
+                    b.HasIndex("DesignersId");
+
+                    b.ToTable("AuthorBoardGame");
+                });
+
             modelBuilder.Entity("BoardGameCategory", b =>
                 {
                     b.Property<int>("CategoriesId")
@@ -52,6 +82,54 @@ namespace BoarGameShop.Api.EFStructures.Migrations
                     b.ToTable("BoardGameMechanic");
                 });
 
+            modelBuilder.Entity("BoardGameShop.Api.Entities.Artist", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<byte[]>("TimeSpam")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Artists");
+                });
+
+            modelBuilder.Entity("BoardGameShop.Api.Entities.Author", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<byte[]>("TimeSpam")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Authors");
+                });
+
             modelBuilder.Entity("BoardGameShop.Api.Entities.BoardGame", b =>
                 {
                     b.Property<int>("Id")
@@ -60,13 +138,18 @@ namespace BoarGameShop.Api.EFStructures.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ArtistIds")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CategoryIds")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("DesignerIds")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte?>("Discount")
                         .HasColumnType("tinyint");
@@ -82,7 +165,6 @@ namespace BoarGameShop.Api.EFStructures.Migrations
                         .HasColumnType("tinyint");
 
                     b.Property<string>("MechanicIds")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("MinPlayTime")
@@ -140,30 +222,6 @@ namespace BoarGameShop.Api.EFStructures.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("BoardGameShop.Api.Entities.Creator", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<byte[]>("TimeSpam")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Creators");
-                });
-
             modelBuilder.Entity("BoardGameShop.Api.Entities.Mechanic", b =>
                 {
                     b.Property<int>("Id")
@@ -214,6 +272,36 @@ namespace BoarGameShop.Api.EFStructures.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Publishers");
+                });
+
+            modelBuilder.Entity("ArtistBoardGame", b =>
+                {
+                    b.HasOne("BoardGameShop.Api.Entities.BoardGame", null)
+                        .WithMany()
+                        .HasForeignKey("ArtistIds")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BoardGameShop.Api.Entities.Artist", null)
+                        .WithMany()
+                        .HasForeignKey("ArtistsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AuthorBoardGame", b =>
+                {
+                    b.HasOne("BoardGameShop.Api.Entities.BoardGame", null)
+                        .WithMany()
+                        .HasForeignKey("DesignerIds")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BoardGameShop.Api.Entities.Author", null)
+                        .WithMany()
+                        .HasForeignKey("DesignersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BoardGameCategory", b =>
