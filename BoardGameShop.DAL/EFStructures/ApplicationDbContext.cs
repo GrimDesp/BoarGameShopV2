@@ -1,4 +1,4 @@
-﻿namespace BoardGameShop.Api.EFStructures
+﻿namespace BoardGameShop.DAL.EFStructures
 {
     public class ApplicationDbContext : DbContext
     {

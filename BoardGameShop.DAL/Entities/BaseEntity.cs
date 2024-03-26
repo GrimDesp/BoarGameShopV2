@@ -1,4 +1,4 @@
-﻿namespace BoardGameShop.Api.Entities
+﻿namespace BoardGameShop.DAL.Entities
 {
     public class BaseEntity
     {

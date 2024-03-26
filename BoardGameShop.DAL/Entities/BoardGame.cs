@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace BoardGameShop.Api.Entities
+﻿namespace BoardGameShop.DAL.Entities
 {
     [EntityTypeConfiguration(typeof(BoardGameConfiguration))]
     public class BoardGame : BaseEntity

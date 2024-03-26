@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
-namespace BoardGameShop.Api.Entities.Configuration
+﻿namespace BoardGameShop.DAL.Entities.Configuration
 {
     public class BoardGameConfiguration : IEntityTypeConfiguration<BoardGame>
     {
