@@ -1,4 +1,6 @@
-﻿namespace BoardGameShop.Api.Entities
+﻿using System.ComponentModel;
+
+namespace BoardGameShop.Api.Entities
 {
     [EntityTypeConfiguration(typeof(BoardGameConfiguration))]
     public class BoardGame : BaseEntity
@@ -8,7 +10,11 @@
         public string Name { get; set; } = string.Empty;
         [MaxLength(1000)]
         public string? Description { get; set; } = string.Empty;
+        [DefaultValue(0)]
+        public int Quantity { get; set; } = 0;
+        [DefaultValue(1)]
         public byte MinPlayer { get; set; } = 1;
+        [DefaultValue(1)]
         public byte MaxPlayer { get; set; } = 1;
         public int? MinPlayTime { get; set; }
         public int? MaxPlayTime { get; set; }
