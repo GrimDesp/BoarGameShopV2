@@ -1,4 +1,4 @@
-namespace BoarGameShop.Api
+namespace BoardGameShop.Model
 {
     public class WeatherForecast
     {

@@ -10,6 +10,7 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("BoardGameDbConnection"));
 });
+builder.Services.AddScoped<IBoardGameRepository, BoardGameRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

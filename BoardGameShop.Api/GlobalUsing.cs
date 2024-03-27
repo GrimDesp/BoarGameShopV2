@@ -1,8 +1,10 @@
-﻿global using BoardGameShop.DAL.EFStructures;
+﻿global using BoardGameShop.Api.Extensions;
+global using BoardGameShop.DAL.EFStructures;
 global using BoardGameShop.DAL.Entities;
 global using BoardGameShop.DAL.Entities.Configuration;
 global using BoardGameShop.DAL.Repositories;
 global using BoardGameShop.DAL.Repositories.Contracts;
+global using BoardGameShop.Model;
 global using BoardGameShop.Model.Dtos;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Mvc;
