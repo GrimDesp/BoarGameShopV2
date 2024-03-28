@@ -1,0 +1,32 @@
+﻿@using System.Globalization
+<div class="card " style="width: 16rem;font-size:1.2rem">
+    <a href="" class="text-center align-self-center m-2 " >
+        <img src=@Product.ImageUrls.First() class="card-img-top" style="height:10rem; width:fit-content" alt="...">
+    </a>
+    <div class="card-body text-center border-2 border-top border-primary-subtle">
+        <a href="" class="card-text navbar-text text-decoration-none text-black">@Product.Name</a>
+        @if(Product.Price > 0)
+        {
+            <p class="fw-bold" style="color:dimgray;font-family:'Comic Sans MS'">
+                @Product.FullPrice.ToString("F0")
+                <span style="font-size:0.8em">грн</span>
+                <span class="fw-bold" style="color:indigo; font-family:'Comic Sans MS'">
+                    @Product.Price.ToString("F0")
+                    <span style="font-size:0.8em">грн</span>
+                </span>
+            </p>
+            
+        }
+        else
+        {
+        <p class="fw-bold" style="color:indigo; font-family:'Comic Sans MS'">
+                @Product.FullPrice.ToString("F0")
+            <span style="font-size:0.8em">грн</span>
+        </p>
+        }
+    </div>
+</div>
+@code{
+    [Parameter]
+    public ProductDto Product {get; set;}
+}

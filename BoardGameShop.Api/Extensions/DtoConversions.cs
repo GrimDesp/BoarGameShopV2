@@ -1,7 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace BoardGameShop.Api.Extensions
+﻿namespace BoardGameShop.Api.Extensions
 {
     public static class DtoConversions
     {
@@ -14,7 +11,8 @@ namespace BoardGameShop.Api.Extensions
                         Discount = boardGame.Discount,
                         FullPrice = boardGame.FullPrice,
                         Name = boardGame.Name,
-                        ImageUrls = LoadImagesUlr(boardGame.Id)
+                        ImageUrls = LoadImagesUlr(boardGame.Id),
+                        Price = boardGame.Discount > 0 ? CalculatePrice(boardGame.FullPrice, boardGame.Discount ?? 0) : default
                     }).ToList();
         }
 
@@ -22,15 +20,18 @@ namespace BoardGameShop.Api.Extensions
         {
             try
             {
-                var images = Directory.GetFiles($".\\data\\img\\BoardGames\\{itemId}");
-                if (images.Length == 0)
+                IEnumerable<string> images = Directory.GetFiles($"..\\BoardGameShop.Web\\wwwroot\\data\\img\\BoardGames\\{itemId}");
+                if (images.Count() == 0)
                     throw new DirectoryNotFoundException();
+                images = images.Select(str => str.Replace("..\\BoardGameShop.Web\\wwwroot", ""));
                 return images;
             }
             catch (DirectoryNotFoundException)
             {
-                return Directory.GetFiles(".\\data\\img");
+                return new List<string>(["\\data\\img\\Default.png"]);
             }
         }
+        private static decimal CalculatePrice(decimal fullPrice, byte discount)
+            => fullPrice * (1 - (discount / (decimal)100));
     }
 }

@@ -11,6 +11,7 @@
             this.gameRepository = gameRepository;
         }
         // GET: api/<BoardGameController>
+        [Produces("application/json")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {

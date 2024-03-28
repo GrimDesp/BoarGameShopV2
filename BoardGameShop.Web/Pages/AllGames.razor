@@ -1,4 +1,14 @@
-﻿@page "/"
+﻿@page "/games"
 @layout MainLayout
 
 <PageTitle>Page Title</PageTitle>
+<div class="container">
+   <div class="row">
+        @foreach (var item in Products)
+        {
+            <div class="col-xl-3 col-md-6 col-xs-12">
+                <DisplayItem Product="item"></DisplayItem>
+            </div>
+        }
+   </div>
+</div>
