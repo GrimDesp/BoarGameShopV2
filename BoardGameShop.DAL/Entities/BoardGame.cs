@@ -11,11 +11,12 @@
         [DefaultValue(0)]
         public int Quantity { get; set; } = 0;
         [DefaultValue(1)]
-        public byte MinPlayer { get; set; } = 1;
+        public byte MinPlayer { get; set; }
         [DefaultValue(1)]
-        public byte MaxPlayer { get; set; } = 1;
+        public byte MaxPlayer { get; set; }
         public int? MinPlayTime { get; set; }
         public int? MaxPlayTime { get; set; }
+        public AgeEnum Age { get; set; }
         [Required]
         [Precision(20, 2)]
         public decimal FullPrice { get; set; }

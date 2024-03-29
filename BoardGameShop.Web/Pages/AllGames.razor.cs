@@ -1,9 +1,9 @@
 ﻿
 namespace BoardGameShop.Web.Pages
 {
-    public partial class AllGames : ComponentBase
+    public partial class AllGamesBase : ComponentBase
     {
-        public IEnumerable<ProductDto> Products { get; set; } = new List<ProductDto>();
+        public IEnumerable<ProductDto>? Products { get; set; }
         [Inject]
         public IProductService ProductService { get; set; }
         public string? Message { get; set; }

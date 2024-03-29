@@ -1,14 +1,27 @@
 ﻿@page "/games"
+@inherits AllGamesBase
 @layout MainLayout
-
-<PageTitle>Page Title</PageTitle>
 <div class="container">
-   <div class="row">
-        @foreach (var item in Products)
-        {
-            <div class="col-xl-3 col-md-6 col-xs-12">
-                <DisplayItem Product="item"></DisplayItem>
+    @if (Message == null && Products == null)
+    {
+        <LoadingSpinner></LoadingSpinner>
+    }
+    else if (Message != null)
+    {
+        <p>Message</p>
+    }
+    else
+    {
+        <PageTitle>Page Title</PageTitle>
+
+            <div class="row">
+                @foreach (var item in Products)
+                {
+                    <div class="col-xl-3 col-md-6 col-xs-12 ">
+                        <DisplayItem Product="item"></DisplayItem>
+                    </div>
+                }
             </div>
-        }
-   </div>
+    }
 </div>
+

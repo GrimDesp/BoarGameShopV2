@@ -11,24 +11,29 @@
                         Discount = boardGame.Discount,
                         FullPrice = boardGame.FullPrice,
                         Name = boardGame.Name,
-                        ImageUrls = LoadImagesUlr(boardGame.Id),
+                        Quantity = boardGame.Quantity,
+                        MinPlayer = boardGame.MinPlayer,
+                        MaxPlayer = boardGame.MaxPlayer,
+                        MinPlayTime = boardGame.MinPlayTime,
+                        MaxPlayTime = boardGame.MaxPlayTime,
+                        ImageUrl = LoadImageUlr(boardGame.Id),
                         Price = boardGame.Discount > 0 ? CalculatePrice(boardGame.FullPrice, boardGame.Discount ?? 0) : default
                     }).ToList();
         }
 
-        private static IEnumerable<string> LoadImagesUlr(int itemId)
+        private static string LoadImageUlr(int itemId)
         {
             try
             {
-                IEnumerable<string> images = Directory.GetFiles($"..\\BoardGameShop.Web\\wwwroot\\data\\img\\BoardGames\\{itemId}");
-                if (images.Count() == 0)
+                string? image = Directory.GetFiles($"..\\BoardGameShop.Web\\wwwroot\\data\\img\\BoardGames\\{itemId}").FirstOrDefault();
+                if (image is null)
                     throw new DirectoryNotFoundException();
-                images = images.Select(str => str.Replace("..\\BoardGameShop.Web\\wwwroot", ""));
-                return images;
+                image = image.Replace("..\\BoardGameShop.Web\\wwwroot", "");
+                return image;
             }
             catch (DirectoryNotFoundException)
             {
-                return new List<string>(["\\data\\img\\Default.png"]);
+                return "\\data\\img\\Default.png";
             }
         }
         private static decimal CalculatePrice(decimal fullPrice, byte discount)
