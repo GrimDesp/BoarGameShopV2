@@ -16,6 +16,7 @@
                         MaxPlayer = boardGame.MaxPlayer,
                         MinPlayTime = boardGame.MinPlayTime,
                         MaxPlayTime = boardGame.MaxPlayTime,
+                        Age = boardGame.Age,
                         ImageUrl = LoadImageUlr(boardGame.Id),
                         Price = boardGame.Discount > 0 ? CalculatePrice(boardGame.FullPrice, boardGame.Discount ?? 0) : default
                     }).ToList();

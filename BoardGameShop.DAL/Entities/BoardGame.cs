@@ -10,13 +10,11 @@
         public string? Description { get; set; } = string.Empty;
         [DefaultValue(0)]
         public int Quantity { get; set; } = 0;
-        [DefaultValue(1)]
-        public byte MinPlayer { get; set; }
-        [DefaultValue(1)]
-        public byte MaxPlayer { get; set; }
+        public byte? MinPlayer { get; set; }
+        public byte? MaxPlayer { get; set; }
         public int? MinPlayTime { get; set; }
         public int? MaxPlayTime { get; set; }
-        public AgeEnum Age { get; set; }
+        public AgeEnum? Age { get; set; }
         [Required]
         [Precision(20, 2)]
         public decimal FullPrice { get; set; }

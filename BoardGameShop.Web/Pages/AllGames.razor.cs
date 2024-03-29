@@ -18,5 +18,37 @@ namespace BoardGameShop.Web.Pages
                 Message = ex.Message;
             }
         }
+        protected string FormatPlayTime(ProductDto game)
+        {
+            if (game.MinPlayTime == null)
+            {
+                return " - ";
+            }
+            if (game.MaxPlayTime == null)
+            {
+                return $"{game.MinPlayTime}+";
+            }
+            return $"{game.MinPlayTime} - {game.MaxPlayTime}";
+        }
+        protected string FormatPlayers(ProductDto game)
+        {
+            if (game.MinPlayer == null)
+            {
+                return " - ";
+            }
+            if (game.MaxPlayer == null)
+            {
+                return $"{game.MinPlayer}+";
+            }
+            return $"{game.MinPlayer} - {game.MaxPlayer}";
+        }
+        protected string FormatAge(ProductDto game)
+        {
+            if (game.Age == null)
+            {
+                return " - ";
+            }
+            return $"{game.Age.Value}+";
+        }
     }
 }

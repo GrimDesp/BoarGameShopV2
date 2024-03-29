@@ -9,9 +9,9 @@
         public byte? Discount { get; set; }
         public string ImageUrl { get; set; } = string.Empty;
         public int Quantity { get; set; }
-        public AgeEnum Age { get; set; }
-        public byte MinPlayer { get; set; }
-        public byte MaxPlayer { get; set; }
+        public AgeEnum? Age { get; set; }
+        public byte? MinPlayer { get; set; }
+        public byte? MaxPlayer { get; set; }
         public int? MinPlayTime { get; set; }
         public int? MaxPlayTime { get; set; }
 
