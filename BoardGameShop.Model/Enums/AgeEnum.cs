@@ -1,6 +1,6 @@
 ﻿namespace BoardGameShop.Model.Enums
 {
-    public enum AgeEnum
+    public enum AgeEnum : byte
     {
         Age3 = 3,
         Age4 = 4,

@@ -48,7 +48,7 @@ namespace BoardGameShop.Web.Pages
             {
                 return " - ";
             }
-            return $"{game.Age.Value}+";
+            return $"{(byte)game.Age.Value}+";
         }
     }
 }

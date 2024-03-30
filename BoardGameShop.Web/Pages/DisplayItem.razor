@@ -23,17 +23,19 @@
             <span style="font-size:0.8em">грн</span>
         </p>    
         }
-        @if(Product.Quantity > 0)
-        {
-            <a href="" class="btn btn-primary" >Купити</a>
-        }
-        else
-        {
-            <span>No available  </span>
-        }
+        <div class="justify-content-center align-content-center" style="height:3em">
+            @if (Product.Quantity > 0)
+            {
+                <a href="" class="btn btn-primary">Купити</a>
+            }
+            else
+            {
+                <span>No available  </span>
+            }
+        </div>
     </div>
     <div class="card-footer p-1">
-        <div class="row text-center" style="font-size:0.7em">
+        <div class="row text-center" style="font-size:0.8em">
             <div class="col">
                 <img src="age-group.png" style="height:1.2em;width:fit-content" />
                 <p class="m-0">@Age</p>
