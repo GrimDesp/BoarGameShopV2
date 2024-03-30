@@ -1,9 +1,9 @@
 ﻿<div class="card m-1" style="width: 14rem;font-size:1.1rem;font-family:'Comic Sans MS'">
-    <a href="" class="text-center align-self-center m-2 " >
+    <a href="/game/@Product.Id" class="text-center align-self-center m-2 ">
         <img src=@Product.ImageUrl class="card-img-top" style="height:6rem; width:fit-content" alt="...">
     </a>
     <div class="card-body text-center border-2 border-top border-primary-subtle p-1">
-        <a href="" class="card-text navbar-text text-decoration-none text-black">@Product.Name</a>
+        <a href="/game/@Product.Id" class="card-text navbar-text text-decoration-none text-black">@Product.Name</a>
         @if(Product.Price > 0)
         {
             <p class="fw-bold m-0" style="color:lightslategray;font-family:'Comic Sans MS'">
@@ -26,7 +26,7 @@
         <div class="justify-content-center align-content-center" style="height:3em">
             @if (Product.Quantity > 0)
             {
-                <a href="" class="btn btn-primary">Купити</a>
+                <a href="/game/@Product.Id" class="btn btn-primary">Купити</a>
             }
             else
             {
