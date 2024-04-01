@@ -1,0 +1,26 @@
+﻿<div class="vw-10 accordion" style=" font-family:'Comic Sans MS'">
+    <span>it`s form eeeeeee</span>
+    <div class="border border-end border-2 m-2 p-2">
+        <p class="form-label" for="PlayersRange">Мінімальна кількість гравців</p>
+        <input type="range"  min="1" max="10" step="1" id="PlayersRange" list="PlayerMarkers" @bind="@MinPlayers" />
+
+        <label class="mb-1">@MinPlayers</label>
+
+        <p class="form-label" for="PlayersRange">Максимальна кількість гравців</p>
+        <input type="range" min="1" max="10" step="1" id="PlayersRange" list="PlayerMarkers" @bind="@MaxPlayers" />
+        <label class="mb-1">@MaxPlayers</label>
+
+        <datalist id="PlayerMarkers">
+            <!-- int i = min; i<=max -->
+            @for (int i = 1; i <= 10; i++)
+            {
+                <option value="@i"></option>
+            }
+        </datalist>
+
+    </div>
+    <div class="border border-end border-2 m-2 p-2">
+        <p class="form-label">Ціна</p>
+        Від<input class="form-control" type="number" /> До <input class="form-control" type="number" />
+    </div>
+</div>

@@ -1,0 +1,19 @@
+﻿@if (Message == null && Products == null)
+{
+    <LoadingSpinner></LoadingSpinner>
+}
+else if (Message != null)
+{
+    <p>Message</p>
+}
+else
+{
+    @foreach (var item in Products)
+    {
+        <div class="col-xl-3 col-md-6 col-xs-12 ">
+            <DisplayItem Product="item" Age="@FormatAge(item)" MinMaxPlayer="@FormatPlayers(item)"
+                         MinMaxTime="@FormatPlayTime(item)"></DisplayItem>
+        </div>
+    }
+}
+
