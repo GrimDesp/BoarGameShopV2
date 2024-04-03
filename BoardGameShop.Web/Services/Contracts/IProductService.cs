@@ -2,6 +2,8 @@
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductDto>> GetProductsAsync();
+        Task<ProductsPageDto> GetProductsAsync();
+        Task<ProductsPageDto> GetProductsAsync(RequestFilterDto filter);
+        Task<StatsForFilterDto> GetStatsForFilterAsync();
     }
 }

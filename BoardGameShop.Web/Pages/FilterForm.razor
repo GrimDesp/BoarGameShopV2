@@ -1,26 +1,154 @@
-﻿<div class="vw-10 accordion" style=" font-family:'Comic Sans MS'">
-    <span>it`s form eeeeeee</span>
-    <div class="border border-end border-2 m-2 p-2">
-        <p class="form-label" for="PlayersRange">Мінімальна кількість гравців</p>
-        <input type="range"  min="1" max="10" step="1" id="PlayersRange" list="PlayerMarkers" @bind="@MinPlayers" />
+﻿@if (Message == null && MechanicIdsFilter == null && FilterData == null)
+{
+    <LoadingSpinner></LoadingSpinner>
+}
+else
+{
+    <div class=" accordion py-2" style=" font-family:'Comic Sans MS'">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePlayers" aria-expanded="true" aria-controls="collapsePlayers">
+                    Кількість гравців
+                </button>
+            </h2>
+            <div id="collapsePlayers" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <p class="form-label" for="PlayersRange">Мінімальна кількість гравців</p>
+                    <input type="range" class="w-100" min="1" max="10" step="1" id="PlayersRange" list="PlayerMarkers" @bind="@MinPlayers" />
 
-        <label class="mb-1">@MinPlayers</label>
+                    <label class="mb-1">@MinPlayers</label>
 
-        <p class="form-label" for="PlayersRange">Максимальна кількість гравців</p>
-        <input type="range" min="1" max="10" step="1" id="PlayersRange" list="PlayerMarkers" @bind="@MaxPlayers" />
-        <label class="mb-1">@MaxPlayers</label>
+                    <p class="form-label" for="PlayersRange">Максимальна кількість гравців</p>
+                    <input type="range" class="w-100" min="1" max="10" step="1" id="PlayersRange" list="PlayerMarkers" @bind="@MaxPlayers" />
+                    <label class="mb-1">@MaxPlayers</label>
 
-        <datalist id="PlayerMarkers">
-            <!-- int i = min; i<=max -->
-            @for (int i = 1; i <= 10; i++)
-            {
-                <option value="@i"></option>
-            }
-        </datalist>
-
+                    <datalist id="PlayerMarkers">
+                        <!-- int i = min; i<=max -->
+                        @for (int i = 1; i <= 10; i++)
+                        {
+                            <option value="@i"></option>
+                        }
+                    </datalist>
+                </div>
+            </div>
+        </div>
+        <!--ШаблоннийАкордеон-->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseItem" aria-expanded="true" aria-controls="collapseItem">
+                    SomeItemAccordeon
+                </button>
+            </h2>
+            <div id="collapseItem" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    SomeItem
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed " type="button" data-bs-toggle="collapse" data-bs-target="#collapsePrice" aria-expanded="false" aria-controls="collapsePrice">
+                    Ціна
+                </button>
+            </h2>
+            <div id="collapsePrice" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <span>Від</span><input class="mx-1 w-25" type="number" @bind="@MinPrice" /> <span>до</span> <input class="mx-1 w-25" type="number" @bind="@MaxPrice" />
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePublisher" aria-expanded="true" aria-controls="collapsePublisher">
+                    Виробники
+                </button>
+            </h2>
+            <div id="collapsePublisher" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    @foreach (var publisher in FilterData.PublisherDtos)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="Publisher @publisher.Id" @bind=PublisherIdsFilter[publisher.Id] />
+                            <label class="form-check-label" for="Publisher @publisher.Id">@publisher.PublisherName</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCategory" aria-expanded="true" aria-controls="collapseCategory">
+                    Категорії
+                </button>
+            </h2>
+            <div id="collapseCategory" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    @foreach (var item in FilterData.CategoryDtos)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="Category @item.Id" @bind=CategoryIdsFilter[item.Id] />
+                            <label class="form-check-label" for="Category @item.Id">@item.CategoryName</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMechanic" aria-expanded="true" aria-controls="collapseMechanic">
+                    Механіки
+                </button>
+            </h2>
+            <div id="collapseMechanic" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    @foreach (var item in FilterData.MechanicDtos)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="Mechanic @item.MechanicId" @bind=MechanicIdsFilter[item.MechanicId] />
+                            <label class="form-check-label" for="Mechanic @item.MechanicId">@item.MechanicName</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAuthor" aria-expanded="true" aria-controls="collapseAuthor">
+                    Автори
+                </button>
+            </h2>
+            <div id="collapseAuthor" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    @foreach (var item in FilterData.AuthorDtos)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="Author @item.Id" @bind=AuthorIdsFilter[item.Id] />
+                            <label class="form-check-label" for="Author @item.Id">@item.Name</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseArtist" aria-expanded="true" aria-controls="collapseArtist">
+                    Дизайнери
+                </button>
+            </h2>
+            <div id="collapseArtist" class="accordion-collapse collapse " data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    @foreach (var item in FilterData.ArtistDtos)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="Artist @item.Id" @bind=ArtistIdsFilter[item.Id] />
+                            <label class="form-check-label" for="Artist @item.Id">@item.Name</label>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-2 mx-auto">
+            <button type="button" class="btn btn-primary m-2" @onclick="UpdateProducts">Застосувати</button>
+        </div>
     </div>
-    <div class="border border-end border-2 m-2 p-2">
-        <p class="form-label">Ціна</p>
-        Від<input class="form-control" type="number" /> До <input class="form-control" type="number" />
-    </div>
-</div>
+}

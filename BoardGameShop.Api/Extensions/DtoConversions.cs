@@ -1,4 +1,6 @@
-﻿namespace BoardGameShop.Api.Extensions
+﻿using System.Reflection.Metadata.Ecma335;
+
+namespace BoardGameShop.Api.Extensions
 {
     public static class DtoConversions
     {
@@ -21,7 +23,16 @@
                         Price = boardGame.Discount > 0 ? CalculatePrice(boardGame.FullPrice, boardGame.Discount ?? 0) : default
                     }).ToList();
         }
-
+        public static IEnumerable<PersonDto> ConvertToDto(this IEnumerable<Artist> artists)
+            => artists.Select(artist => new PersonDto { Id = artist.Id, Name = artist.FullName });
+        public static IEnumerable<PersonDto> ConvertToDto(this IEnumerable<Author> authors)
+            => authors.Select(author => new PersonDto { Id = author.Id, Name = author.FullName });
+        public static IEnumerable<CategoryDto> ConvertToDto(this IEnumerable<Category> categories)
+            => categories.Select(category => new CategoryDto { Id = category.Id, CategoryName = category.Name });
+        public static IEnumerable<MechanicDto> ConvertToDto(this IEnumerable<Mechanic> mechanics)
+            => mechanics.Select(mechanic => new MechanicDto { MechanicId = mechanic.Id, MechanicName = mechanic.Name });
+        public static IEnumerable<PublisherDto> ConvertToDto(this IEnumerable<Publisher> publishers)
+            => publishers.Select(publisher => new PublisherDto { Id = publisher.Id, PublisherName = publisher.Name });
         private static string LoadImageUlr(int itemId)
         {
             try

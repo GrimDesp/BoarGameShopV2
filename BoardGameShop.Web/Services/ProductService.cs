@@ -8,7 +8,7 @@
         {
             this.httpClient = httpClient;
         }
-        public async Task<IEnumerable<ProductDto>> GetProductsAsync()
+        public async Task<ProductsPageDto> GetProductsAsync()
         {
             try
             {
@@ -18,12 +18,45 @@
                     string message = await products.Content.ReadAsStringAsync();
                     throw new Exception(message);
                 }
-                if (products.StatusCode == System.Net.HttpStatusCode.NoContent)
+                return await products.Content.ReadFromJsonAsync<ProductsPageDto>() ?? new ProductsPageDto();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public async Task<ProductsPageDto> GetProductsAsync(RequestFilterDto filter)
+        {
+            try
+            {
+                var products = await httpClient.PostAsJsonAsync<RequestFilterDto>("api/BoardGame/Filter", filter);
+                if (!products.IsSuccessStatusCode)
                 {
-                    return Enumerable.Empty<ProductDto>();
+                    string message = await products.Content.ReadAsStringAsync();
+                    throw new Exception(message);
                 }
-                return await products.Content.ReadFromJsonAsync<IEnumerable<ProductDto>>()
-                    ?? Enumerable.Empty<ProductDto>();
+                return await products.Content.ReadFromJsonAsync<ProductsPageDto>() ?? new ProductsPageDto();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<StatsForFilterDto> GetStatsForFilterAsync()
+        {
+            try
+            {
+                var stats = await httpClient.GetAsync("api/DataFilter/GetData");
+                if (!stats.IsSuccessStatusCode)
+                {
+                    string message = await stats.Content.ReadAsStringAsync();
+                    throw new Exception(message);
+                }
+                return await stats.Content.ReadFromJsonAsync<StatsForFilterDto>()
+                    ?? new StatsForFilterDto();
             }
             catch (Exception)
             {
