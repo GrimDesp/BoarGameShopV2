@@ -11,6 +11,7 @@
             this.gameRepository = gameRepository;
         }
         // GET: api/<BoardGameController>
+        [Produces("application/json")]
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -21,30 +22,19 @@
             }
             return Ok(games.ConvertToDto());
         }
-
-        // GET api/<BoardGameController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [Produces("application/json")]
+        [HttpPost("Filter")]
+        public async Task<IActionResult> FindAll([FromBody] RequestFilterDto filter)
         {
-            return "value";
-        }
-
-        // POST api/<BoardGameController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<BoardGameController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<BoardGameController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            var games = await gameRepository.GetAll();
+            var gamesDto = games.ConvertToDto();
+            var pages = await gameRepository.CountPages(filter.ItemsPerPage);
+            var result = new ProductsPageDto { Products = gamesDto, TotalPages = pages };
+            if (games == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
         }
     }
 }

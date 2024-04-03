@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardGameShop.Model", "Boar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BoardGameShop.DAL", "BoardGameShop.DAL\BoardGameShop.DAL.csproj", "{F5D5AA06-67B5-4306-9645-47B4643CF8FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleForTesting", "ConsoleForTesting\ConsoleForTesting.csproj", "{825B8BE8-3EBA-4DBC-8F3F-954F1DFEB300}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleForTesting", "ConsoleForTesting\ConsoleForTesting.csproj", "{825B8BE8-3EBA-4DBC-8F3F-954F1DFEB300}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -138,6 +138,9 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<byte?>("Age")
+                        .HasColumnType("tinyint");
+
                     b.Property<string>("ArtistIds")
                         .HasColumnType("nvarchar(max)");
 
@@ -161,7 +164,7 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                     b.Property<int?>("MaxPlayTime")
                         .HasColumnType("int");
 
-                    b.Property<byte>("MaxPlayer")
+                    b.Property<byte?>("MaxPlayer")
                         .HasColumnType("tinyint");
 
                     b.Property<string>("MechanicIds")
@@ -170,7 +173,7 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                     b.Property<int?>("MinPlayTime")
                         .HasColumnType("int");
 
-                    b.Property<byte>("MinPlayer")
+                    b.Property<byte?>("MinPlayer")
                         .HasColumnType("tinyint");
 
                     b.Property<string>("Name")

@@ -6,6 +6,7 @@ global using BoardGameShop.DAL.Repositories;
 global using BoardGameShop.DAL.Repositories.Contracts;
 global using BoardGameShop.Model;
 global using BoardGameShop.Model.Dtos;
+global using BoardGameShop.Model.Enums;
 global using Microsoft.AspNetCore.Http;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;

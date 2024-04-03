@@ -1,4 +1,25 @@
-﻿@page "/"
+﻿@page "/games"
+@inherits AllGamesBase
 @layout MainLayout
-
-<PageTitle>Page Title</PageTitle>
+<div class="container">
+    <PageTitle>All Board Games</PageTitle>
+    <div class="row  m-2 border w-lg-25">
+        <form id="filter" method="post" action="/games">
+            <FilterForm EventCallback="ApplyFilter"></FilterForm>
+        </form>
+    </div>
+    <div class="row">
+        <DisplayProducts Products="@Products"></DisplayProducts>
+    </div>
+    <div class="row">
+        <ul class="pagination">
+            @for (int i = 1; i <= TotalPages; i++)
+            {
+                var buttonNumber = i;
+               <li class="page-item">
+                    <button class="page-link" @onclick="@(e => OnPaginationClick(e,buttonNumber))">@i</button>
+               </li>    
+                        }
+        </ul>
+    </div>
+</div>

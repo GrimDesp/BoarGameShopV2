@@ -3,5 +3,6 @@
     public interface IBoardGameRepository : IBaseRepo<BoardGame>
     {
         Task<IEnumerable<BoardGame>> GetAll();
+        Task<int> CountPages(int itemPerPage);
     }
 }
