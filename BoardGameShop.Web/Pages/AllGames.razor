@@ -11,16 +11,7 @@
     <div class="row">
         <DisplayProducts Products="@Products"></DisplayProducts>
     </div>
-    <div class="row">
-        <ul class="pagination m-2 justify-content-center">
-            @for (int i = 0; i < TotalPages; i++)
-            {
-                var buttonNumber = i;
-               <li class="page-item pagination-lg">
-                    <button class="page-link" @onclick="@(e => OnPaginationClick(e,buttonNumber))">@(i + 1)</button>
-               </li>    
-            
-            }
-        </ul>
+    <div class="row offcanvas-bottom">
+        <PaginationButtonGroup TotalPages ="@TotalPages" CurrentPage ="@CurrentPage" eventCallback="OnPaginationClick"></PaginationButtonGroup>
     </div>
 </div>

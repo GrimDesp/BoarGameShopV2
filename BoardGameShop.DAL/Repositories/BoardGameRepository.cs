@@ -1,9 +1,4 @@
-﻿
-
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using System.Security.Cryptography;
-
-namespace BoardGameShop.DAL.Repositories
+﻿namespace BoardGameShop.DAL.Repositories
 {
     public class BoardGameRepository : BaseRepository<Boardgame>, IBoardGameRepository
     {
@@ -27,7 +22,7 @@ namespace BoardGameShop.DAL.Repositories
             request = FilterByArtist(request, filterDto.ArtistIds);
             (request, totalItems) = await CountTotalPage(request);
             request = Pagination(request, filterDto.CurrentPage, filterDto.ItemsPerPage);
-            return (request.ToList(), (int)Math.Ceiling((double)(totalItems / filterDto.ItemsPerPage)));
+            return (request.ToList(), (int)Math.Ceiling(((double)totalItems / filterDto.ItemsPerPage)));
         }
         private IQueryable<Boardgame> Pagination(IQueryable<Boardgame> games, int currentPage, int itemPerPage)
         {

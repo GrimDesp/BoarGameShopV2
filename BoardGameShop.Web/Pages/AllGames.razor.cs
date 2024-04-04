@@ -3,8 +3,6 @@
     public partial class AllGamesBase : ComponentBase
     {
         [Inject]
-        public HttpClient client { get; set; }
-        [Inject]
         public IProductService ProductService { get; set; }
         public IEnumerable<ProductDto>? Products { get; set; }
         public RequestFilterDto FilterDto { get; set; } = new RequestFilterDto();
@@ -51,7 +49,7 @@
                 ErrorMessage = ex.Message;
             }
         }
-        public async Task OnPaginationClick(MouseEventArgs e, int page)
+        public async Task OnPaginationClick(int page)
         {
             CurrentPage = page;
             FilterDto.CurrentPage = page;
