@@ -8,7 +8,9 @@
         public string Name { get; set; } = string.Empty;
         [StringLength(200)]
         public string? Description { get; set; } = string.Empty;
-        [InverseProperty(nameof(BoardGame.Categories))]
-        public List<BoardGame> BoardGames { get; set; } = new List<BoardGame>();
+        [InverseProperty(nameof(Boardgame.Categories))]
+        public IEnumerable<Boardgame> Boardgames { get; set; } = new List<Boardgame>();
+        [InverseProperty(nameof(BoardgameToCategory.CategoryNavigation))]
+        public IEnumerable<BoardgameToCategory> BoardgameCategories { get; set; } = new List<BoardgameToCategory>();
     }
 }

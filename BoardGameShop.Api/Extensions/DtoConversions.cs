@@ -4,7 +4,7 @@ namespace BoardGameShop.Api.Extensions
 {
     public static class DtoConversions
     {
-        public static IEnumerable<ProductDto> ConvertToDto(this IEnumerable<BoardGame> games)
+        public static IEnumerable<ProductDto> ConvertToDto(this IEnumerable<Boardgame> games)
         {
             return (from boardGame in games
                     select new ProductDto()

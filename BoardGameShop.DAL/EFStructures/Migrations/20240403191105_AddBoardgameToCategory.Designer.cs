@@ -4,6 +4,7 @@ using BoardGameShop.DAL.EFStructures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BoardGameShop.DAL.EFStructures.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240403191105_AddBoardgameToCategory")]
+    partial class AddBoardgameToCategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,36 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("ArtistBoardgame", b =>
+                {
+                    b.Property<int>("ArtistIds")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ArtistsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArtistIds", "ArtistsId");
+
+                    b.HasIndex("ArtistsId");
+
+                    b.ToTable("ArtistBoardgame");
+                });
+
+            modelBuilder.Entity("AuthorBoardgame", b =>
+                {
+                    b.Property<int>("DesignerIds")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DesignersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DesignerIds", "DesignersId");
+
+                    b.HasIndex("DesignersId");
+
+                    b.ToTable("AuthorBoardgame");
+                });
 
             modelBuilder.Entity("BoardGameShop.DAL.Entities.Artist", b =>
                 {
@@ -81,9 +114,15 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                     b.Property<byte?>("Age")
                         .HasColumnType("tinyint");
 
+                    b.Property<string>("ArtistIds")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("DesignerIds")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<byte?>("Discount")
                         .HasColumnType("tinyint");
@@ -126,36 +165,6 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                     b.HasIndex("PublisherId");
 
                     b.ToTable("BoardGames", (string)null);
-                });
-
-            modelBuilder.Entity("BoardGameShop.DAL.Entities.BoardgameToArtist", b =>
-                {
-                    b.Property<int>("BoardgameId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ArtistId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BoardgameId", "ArtistId");
-
-                    b.HasIndex("ArtistId");
-
-                    b.ToTable("BoardgameToArtist");
-                });
-
-            modelBuilder.Entity("BoardGameShop.DAL.Entities.BoardgameToAuthor", b =>
-                {
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BoardgameId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AuthorId", "BoardgameId");
-
-                    b.HasIndex("BoardgameId");
-
-                    b.ToTable("BoardgameToAuthor");
                 });
 
             modelBuilder.Entity("BoardGameShop.DAL.Entities.BoardgameToCategory", b =>
@@ -268,6 +277,36 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                     b.ToTable("Publishers");
                 });
 
+            modelBuilder.Entity("ArtistBoardgame", b =>
+                {
+                    b.HasOne("BoardGameShop.DAL.Entities.Boardgame", null)
+                        .WithMany()
+                        .HasForeignKey("ArtistIds")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BoardGameShop.DAL.Entities.Artist", null)
+                        .WithMany()
+                        .HasForeignKey("ArtistsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("AuthorBoardgame", b =>
+                {
+                    b.HasOne("BoardGameShop.DAL.Entities.Boardgame", null)
+                        .WithMany()
+                        .HasForeignKey("DesignerIds")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BoardGameShop.DAL.Entities.Author", null)
+                        .WithMany()
+                        .HasForeignKey("DesignersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("BoardGameShop.DAL.Entities.Boardgame", b =>
                 {
                     b.HasOne("BoardGameShop.DAL.Entities.Publisher", "PublisherNavigation")
@@ -277,44 +316,6 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                         .IsRequired();
 
                     b.Navigation("PublisherNavigation");
-                });
-
-            modelBuilder.Entity("BoardGameShop.DAL.Entities.BoardgameToArtist", b =>
-                {
-                    b.HasOne("BoardGameShop.DAL.Entities.Artist", "ArtistNavigation")
-                        .WithMany("BoardgameArtists")
-                        .HasForeignKey("ArtistId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BoardGameShop.DAL.Entities.Boardgame", "BoardgameNavigation")
-                        .WithMany("BoardgameArtists")
-                        .HasForeignKey("BoardgameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ArtistNavigation");
-
-                    b.Navigation("BoardgameNavigation");
-                });
-
-            modelBuilder.Entity("BoardGameShop.DAL.Entities.BoardgameToAuthor", b =>
-                {
-                    b.HasOne("BoardGameShop.DAL.Entities.Author", "AuthorNavigation")
-                        .WithMany("BoardgameToAuthors")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BoardGameShop.DAL.Entities.Boardgame", "BoardgameNavigation")
-                        .WithMany("BoardgameAuthors")
-                        .HasForeignKey("BoardgameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("AuthorNavigation");
-
-                    b.Navigation("BoardgameNavigation");
                 });
 
             modelBuilder.Entity("BoardGameShop.DAL.Entities.BoardgameToCategory", b =>
@@ -355,22 +356,8 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                     b.Navigation("MechanicNavigation");
                 });
 
-            modelBuilder.Entity("BoardGameShop.DAL.Entities.Artist", b =>
-                {
-                    b.Navigation("BoardgameArtists");
-                });
-
-            modelBuilder.Entity("BoardGameShop.DAL.Entities.Author", b =>
-                {
-                    b.Navigation("BoardgameToAuthors");
-                });
-
             modelBuilder.Entity("BoardGameShop.DAL.Entities.Boardgame", b =>
                 {
-                    b.Navigation("BoardgameArtists");
-
-                    b.Navigation("BoardgameAuthors");
-
                     b.Navigation("BoardgameCategories");
 
                     b.Navigation("BoardgameMechanics");

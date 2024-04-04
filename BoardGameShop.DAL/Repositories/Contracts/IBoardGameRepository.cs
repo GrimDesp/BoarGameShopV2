@@ -1,8 +1,9 @@
 ﻿namespace BoardGameShop.DAL.Repositories.Contracts
 {
-    public interface IBoardGameRepository : IBaseRepo<BoardGame>
+    public interface IBoardGameRepository : IBaseRepo<Boardgame>
     {
-        Task<IEnumerable<BoardGame>> GetAll();
+        Task<IEnumerable<Boardgame>> GetAll();
         Task<int> CountPages(int itemPerPage);
+        Task<(IEnumerable<Boardgame>, int)> GetByFilter(RequestFilterDto filterDto);
     }
 }

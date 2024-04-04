@@ -26,11 +26,10 @@
         [HttpPost("Filter")]
         public async Task<IActionResult> FindAll([FromBody] RequestFilterDto filter)
         {
-            var games = await gameRepository.GetAll();
+            (var games, int totalPage) = await gameRepository.GetByFilter(filter);
             var gamesDto = games.ConvertToDto();
-            var pages = await gameRepository.CountPages(filter.ItemsPerPage);
-            var result = new ProductsPageDto { Products = gamesDto, TotalPages = pages };
-            if (games == null)
+            var result = new ProductsPageDto { Products = gamesDto, TotalPages = totalPage };
+            if (result == null)
             {
                 return NotFound();
             }
