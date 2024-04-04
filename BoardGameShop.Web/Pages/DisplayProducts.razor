@@ -1,6 +1,14 @@
-﻿@if ( Products == null)
+﻿@if ( Products == null )
 {
     <LoadingSpinner></LoadingSpinner>
+}
+else if(Products.Count() == 0)
+{
+    <div>
+        <p>
+            Товару за таким запитом не знайдено
+        </p>
+    </div>
 }
 else
 {

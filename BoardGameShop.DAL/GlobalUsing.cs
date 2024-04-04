@@ -3,6 +3,7 @@ global using BoardGameShop.DAL.Entities;
 global using BoardGameShop.DAL.Entities.Configuration;
 global using BoardGameShop.DAL.Repositories;
 global using BoardGameShop.DAL.Repositories.Contracts;
+global using BoardGameShop.Model.Dtos;
 global using BoardGameShop.Model.Enums;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Design;

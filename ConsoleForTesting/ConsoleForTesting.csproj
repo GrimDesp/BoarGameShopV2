@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BoardGameShop.DAL\BoardGameShop.DAL.csproj" />
+  </ItemGroup>
+
 </Project>

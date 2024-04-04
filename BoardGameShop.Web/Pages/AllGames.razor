@@ -12,14 +12,15 @@
         <DisplayProducts Products="@Products"></DisplayProducts>
     </div>
     <div class="row">
-        <ul class="pagination">
-            @for (int i = 1; i <= TotalPages; i++)
+        <ul class="pagination m-2 justify-content-center">
+            @for (int i = 0; i < TotalPages; i++)
             {
                 var buttonNumber = i;
-               <li class="page-item">
-                    <button class="page-link" @onclick="@(e => OnPaginationClick(e,buttonNumber))">@i</button>
+               <li class="page-item pagination-lg">
+                    <button class="page-link" @onclick="@(e => OnPaginationClick(e,buttonNumber))">@(i + 1)</button>
                </li>    
-                        }
+            
+            }
         </ul>
     </div>
 </div>

@@ -2,7 +2,7 @@
 {
     public class ProductsPageDto
     {
-        public IEnumerable<ProductDto> Products { get; set; }
+        public IEnumerable<ProductDto> Products { get; set; } = Enumerable.Empty<ProductDto>();
         public int TotalPages { get; set; }
     }
 }

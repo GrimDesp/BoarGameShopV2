@@ -6,7 +6,7 @@
         public HttpClient client { get; set; }
         [Inject]
         public IProductService ProductService { get; set; }
-        public IEnumerable<ProductDto> Products { get; set; }
+        public IEnumerable<ProductDto>? Products { get; set; }
         public RequestFilterDto FilterDto { get; set; } = new RequestFilterDto();
         public int CurrentPage { get; set; } = 0;
         public int TotalPages { get; set; }
@@ -16,16 +16,7 @@
         {
             FilterDto.CurrentPage = CurrentPage;
             FilterDto.ItemsPerPage = PaginationSize;
-            try
-            {
-                var pageData = await ProductService.GetProductsAsync(FilterDto);
-                Products = pageData.Products;
-                TotalPages = pageData.TotalPages;
-            }
-            catch (Exception ex)
-            {
-                ErrorMessage = ex.Message;
-            }
+            await UpdateProducts();
         }
         public async Task ApplyFilter(RequestFormFilter formFilter)
         {
@@ -44,11 +35,11 @@
             };
             CurrentPage = 0;
             FilterDto.CurrentPage = CurrentPage;
-            await UpdateProducts(FilterDto);
+            await UpdateProducts();
         }
-        public async Task UpdateProducts(RequestFilterDto filter)
+        public async Task UpdateProducts()
         {
-            Products = default;
+            Products = null;
             try
             {
                 var pageData = await ProductService.GetProductsAsync(FilterDto);
@@ -60,10 +51,11 @@
                 ErrorMessage = ex.Message;
             }
         }
-        public Task OnPaginationClick(MouseEventArgs e, int page)
+        public async Task OnPaginationClick(MouseEventArgs e, int page)
         {
-            Console.WriteLine(page);
-            return null;
+            CurrentPage = page;
+            FilterDto.CurrentPage = page;
+            await UpdateProducts();
         }
     }
 }

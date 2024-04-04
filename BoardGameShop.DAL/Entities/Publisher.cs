@@ -5,7 +5,7 @@
         [Required]
         [StringLength(50)]
         public string Name { get; set; } = string.Empty;
-        [InverseProperty(nameof(BoardGame.PublisherNavigation))]
-        public IEnumerable<BoardGame> BoardGames { get; set; } = new List<BoardGame>();
+        [InverseProperty(nameof(Boardgame.PublisherNavigation))]
+        public IEnumerable<Boardgame> BoardGames { get; set; } = new List<Boardgame>();
     }
 }

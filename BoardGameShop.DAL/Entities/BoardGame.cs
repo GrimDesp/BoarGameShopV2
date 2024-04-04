@@ -1,7 +1,7 @@
 ﻿namespace BoardGameShop.DAL.Entities
 {
-    [EntityTypeConfiguration(typeof(BoardGameConfiguration))]
-    public class BoardGame : BaseEntity
+    [EntityTypeConfiguration(typeof(BoardgameConfiguration))]
+    public class Boardgame : BaseEntity
     {
         [Required]
         [MaxLength(30)]
@@ -19,22 +19,34 @@
         [Precision(20, 2)]
         public decimal FullPrice { get; set; }
         public byte? Discount { get; set; }
-        public List<int>? CategoryIds { get; set; }
-        [ForeignKey(nameof(CategoryIds))]
-        public List<Category>? Categories { get; set; }
-        public List<int>? MechanicIds { get; set; }
-        [ForeignKey(nameof(MechanicIds))]
-        public List<Mechanic>? Mechanics { get; set; }
+
+        [InverseProperty(nameof(Category.Boardgames))]
+        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
+        [InverseProperty(nameof(BoardgameToCategory.BoardgameNavigation))]
+        public IEnumerable<BoardgameToCategory> BoardgameCategories { get; set; } = new List<BoardgameToCategory>();
+
+
+        [InverseProperty(nameof(BoardgameToMechanic.BoardgameNavigation))]
+        public IEnumerable<BoardgameToMechanic> BoardgameMechanics { get; set; } = new List<BoardgameToMechanic>();
+        [InverseProperty(nameof(Mechanic.Boardgames))]
+        public IEnumerable<Mechanic> Mechanics { get; set; } = new List<Mechanic>();
+
+        [InverseProperty(nameof(Author.Boardgames))]
+        public IEnumerable<Author> Authors { get; set; } = new List<Author>();
+        [InverseProperty(nameof(BoardgameToAuthor.BoardgameNavigation))]
+        public IEnumerable<BoardgameToAuthor> BoardgameAuthors { get; set; } = new List<BoardgameToAuthor>();
+
+        [InverseProperty(nameof(Artist.Boardgames))]
+        public IEnumerable<Artist> Artists { get; set; } = new List<Artist>();
+        [InverseProperty(nameof(BoardgameToArtist.BoardgameNavigation))]
+        public IEnumerable<BoardgameToArtist> BoardgameArtists { get; set; } = new List<BoardgameToArtist>();
+
         [Required]
         public int PublisherId { get; set; }
         [Required, ForeignKey(nameof(PublisherId))]
         [InverseProperty(nameof(Publisher.BoardGames))]
         public Publisher PublisherNavigation { get; set; } = new();
-        public List<int>? DesignerIds { get; set; }
-        public List<int>? ArtistIds { get; set; }
-        [ForeignKey(nameof(DesignerIds))]
-        public List<Author>? Designers { get; set; }
-        [ForeignKey(nameof(ArtistIds))]
-        public List<Artist>? Artists { get; set; }
+
+
     }
 }
