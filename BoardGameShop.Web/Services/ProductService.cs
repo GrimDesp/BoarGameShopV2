@@ -44,6 +44,23 @@
                 throw;
             }
         }
+        public async Task<ProductDetailsDto> GetProductById(int id)
+        {
+            try
+            {
+                var result = await httpClient.GetAsync($"api/BoardGame/{id}");
+                if (result.IsSuccessStatusCode)
+                {
+                    return await result.Content.ReadFromJsonAsync<ProductDetailsDto>() ?? new ProductDetailsDto();
+                }
+                string message = await result.Content.ReadAsStringAsync();
+                throw new Exception(message);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         public async Task<StatsForFilterDto> GetStatsForFilterAsync()
         {
