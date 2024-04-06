@@ -1,3 +1,157 @@
 ﻿@page "/game/{Id:int}"
+@if(Product == null && ErrorMessage == null)
+{
+    <LoadingSpinner></LoadingSpinner>
+}
+else if(ErrorMessage != null)
+{
+    <p>Помилка :  ErrorMessage</p>
+}
+else
+{
+    <div class="container">
+        <div class="row justify-content-center justify-content-sm-center">
+            <div class="col-lg-8 col-sm-12 p-2 m-1 border border-2 border-end text-center align-content-center">
+                <!--
+                <img src="@Product.ImageUrls.First()" style="height:20em; width:fit-content" />
+                -->
+                
+                <div id="carouselExample" class="carousel slide">
+                    <div class="carousel-inner">
+                        @for (int i = 0; i < Product.ImageUrls.Count(); i++)
+                        {
+                            @if (i == CurrentImage)
+                            {
+                                <div class="carousel-item active">
+                                    <img style="height:20em; width:fit-content" src="@Product.ImageUrls[i]" />
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="carousel-item">
+                                    <img style="height:20em; width:fit-content" src="@Product.ImageUrls[i]" />
+                                </div>
+                            }
+                        }
+                    </div>
+                    <button class="carousel-control-prev carousel-dark" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next carousel-dark" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-12 m-1 p-2 border border-2 border-end" style="font-size:1.5em; font-family:'Franklin Gothic Medium'">
+                <p class="text-center ">Характеристики <hr /></p>
+                <h2 class="text-center fw-bold">@Product.ProductName</h2>
+                <span style="font-size:0.8em">Видавництво : @Product.PublisherName <hr /></span>
 
-<h3>Here will be product details</h3>
+                <div class="row text-center" style="font-size:0.8em">
+                    <div class="col">
+                        <img src="age-group.png" style="height:1.2em;width:fit-content" />
+                        <p class="m-0">@Age</p>
+                    </div>
+                    <div class="col-6 border-2 border-start ">
+                        <span class="bi bi-clock"></span>
+                        <p class="m-0">@MinMaxTime</p>
+                    </div>
+                    <div class="col border-2 border-start ">
+                        <span class="bi bi-people"></span>
+                        <p class="m-0">@MinMaxPlayer</p>
+                    </div>
+                </div>
+                <hr />
+                <div class="text-center">
+                    @if (Product.Price > 0)
+                    {
+                        <p class="fw-bold m-0" style="color:lightslategray">
+                            @Product.FullPrice.ToString("F0")
+                            <span style="font-size:0.8em">грн</span>
+                            <span class="fw-bold" style="color:indigo; ">
+                                @Product.Price?.ToString("F0")
+                                <span style="font-size:0.8em">грн</span>
+                            </span>
+                        </p>
+
+                    }
+                    else
+                    {
+                        <p class="fw-bold m-0 " style="color:indigo">
+                            @Product.FullPrice.ToString("F0")
+                            <span style="font-size:0.8em">грн</span>
+                        </p>
+                    }
+                    <div class="justify-content-center align-content-center" style="height:3em">
+                        @if (Product.IsAvaible)
+                        {
+                            <a href="" class="btn btn-primary">Купити</a>
+                        }
+                        else
+                        {
+                            <span>No available  </span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center justify-content-sm-center">
+            <div class="col-lg-8 col-sm-12 p-2 m-1 border border-2 border-end ">
+                <p class="text-center" style="font-size:1.5em; font-family:'Franklin Gothic Medium'">Опис<hr /></p>
+                <p>@Product.Description</p>
+            </div>
+            <div class="col-lg-3 col-sm-12 m-1 p-2 border border-2 border-end" style="font-size:1.5em; font-family:'Franklin Gothic Medium'">
+                <p>Детальні характеристики<hr /></p>
+                <div style="font-size:0.8em">
+                    <p>Назва гри : @Product.ProductName</p>
+                    <p>Видавництво : @Product.PublisherName</p>
+                    <p>Тривалість гри : @MinMaxTime</p>
+                    <p>Кількість гравців : @MinMaxPlayer</p>
+                    <p>Вікова категорія : @Age</p>
+                    @if(Product.Categories != null && Product.Categories.Count() > 0 )
+                    {
+                        <p>Категорії : 
+                        @foreach(var category in Product.Categories)
+                        {
+                                @category <span>;&nbsp</span>
+                        }
+                        </p>
+                    }
+                    @if(Product.Mechanics != null && Product.Mechanics.Count() > 0)
+                    {
+                        <p>Механіки : 
+                            @foreach(var mechanic in Product.Mechanics)
+                            {
+                                @mechanic<span>;&nbsp</span>
+                            }
+                        </p>
+                    }
+                    @if(Product.Authors != null && Product.Authors.Count() > 0)
+                    {
+                        <p>
+                            @foreach (var item in Product.Authors)
+                            {
+                                @item<span>;&nbsp</span>
+                            }
+                        </p>
+                    }
+                    @if (Product.Artists != null && Product.Artists.Count() > 0)
+                    {
+                        <p>
+                            @foreach (var item in Product.Artists)
+                            {
+                                @item<span>;&nbsp</span>
+                            }
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    
+}
+

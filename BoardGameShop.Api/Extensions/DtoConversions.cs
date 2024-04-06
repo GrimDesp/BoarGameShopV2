@@ -1,4 +1,5 @@
-﻿using System.Reflection.Metadata.Ecma335;
+﻿using BoardGameShop.DAL.Entities;
+using System.Reflection.Metadata.Ecma335;
 
 namespace BoardGameShop.Api.Extensions
 {
@@ -19,9 +20,33 @@ namespace BoardGameShop.Api.Extensions
                         MinPlayTime = boardGame.MinPlayTime,
                         MaxPlayTime = boardGame.MaxPlayTime,
                         Age = boardGame.Age,
-                        ImageUrl = LoadImageUlr(boardGame.Id),
+                        ImageUrl = LoadImageUrl(boardGame.Id),
                         Price = boardGame.Discount > 0 ? CalculatePrice(boardGame.FullPrice, boardGame.Discount ?? 0) : default
                     }).ToList();
+        }
+        public static ProductDetailsDto ConvertToDto(this Boardgame game)
+        {
+            return new ProductDetailsDto
+            {
+                Age = game.Age,
+                ProductId = game.Id,
+                Artists = game.Artists.Select(a => a.FullName),
+                Authors = game.Authors.Select(a => a.FullName),
+                Categories = game.Categories.Select(c => c.Name),
+                Mechanics = game.Mechanics.Select(m => m.Name),
+                Description = game.Description,
+                FullPrice = game.FullPrice,
+                IsAvaible = game.Quantity > 0,
+                MaxPlayer = game.MaxPlayer,
+                MinPlayer = game.MinPlayer,
+                MaxPlayTime = game.MaxPlayTime,
+                MinPlayTime = game.MinPlayTime,
+                Price = game.Discount > 0 ? CalculatePrice(game.FullPrice, game.Discount ?? 0) : default,
+                ProductName = game.Name,
+                PublisherName = game.PublisherNavigation.Name,
+                TimeSpam = game.TimeSpam,
+                ImageUrls = LoadImageUrls(game.Id).ToList()
+            };
         }
         public static IEnumerable<PersonDto> ConvertToDto(this IEnumerable<Artist> artists)
             => artists.Select(artist => new PersonDto { Id = artist.Id, Name = artist.FullName });
@@ -33,7 +58,7 @@ namespace BoardGameShop.Api.Extensions
             => mechanics.Select(mechanic => new MechanicDto { MechanicId = mechanic.Id, MechanicName = mechanic.Name });
         public static IEnumerable<PublisherDto> ConvertToDto(this IEnumerable<Publisher> publishers)
             => publishers.Select(publisher => new PublisherDto { Id = publisher.Id, PublisherName = publisher.Name });
-        private static string LoadImageUlr(int itemId)
+        private static string LoadImageUrl(int itemId)
         {
             try
             {
@@ -46,6 +71,22 @@ namespace BoardGameShop.Api.Extensions
             catch (DirectoryNotFoundException)
             {
                 return "\\data\\img\\Default.png";
+            }
+        }
+        private static string[] LoadImageUrls(int itemId)
+        {
+            try
+            {
+                string[] image = Directory.GetFiles($"..\\BoardGameShop.Web\\wwwroot\\data\\img\\BoardGames\\{itemId}");
+                if (image is null)
+                    throw new DirectoryNotFoundException();
+                for (int i = 0; i < image.Length; i++)
+                    image[i] = image[i].Replace("..\\BoardGameShop.Web\\wwwroot", "");
+                return image;
+            }
+            catch (DirectoryNotFoundException)
+            {
+                return ["\\data\\img\\Default.png"];
             }
         }
         private static decimal CalculatePrice(decimal fullPrice, byte discount)

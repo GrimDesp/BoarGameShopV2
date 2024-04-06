@@ -22,6 +22,19 @@
             request = FilterByArtist(request, filterDto.ArtistIds);
             (request, totalItems) = await CountTotalPage(request);
             request = Pagination(request, filterDto.CurrentPage, filterDto.ItemsPerPage);
+            request = request.Select(cd => new Boardgame
+            {
+                Age = cd.Age,
+                Discount = cd.Discount,
+                FullPrice = cd.FullPrice,
+                Id = cd.Id,
+                MaxPlayer = cd.MaxPlayer,
+                MinPlayer = cd.MinPlayer,
+                MaxPlayTime = cd.MaxPlayTime,
+                MinPlayTime = cd.MinPlayTime,
+                Name = cd.Name,
+                Quantity = cd.Quantity
+            });
             return (request.ToList(), (int)Math.Ceiling(((double)totalItems / filterDto.ItemsPerPage)));
         }
         private IQueryable<Boardgame> Pagination(IQueryable<Boardgame> games, int currentPage, int itemPerPage)
@@ -61,6 +74,14 @@
         {
             int totalPage = await boardgames.CountAsync();
             return (boardgames, totalPage);
+        }
+
+        public async Task<Boardgame> GetById(int id)
+        {
+            var game = await Table.Include(cd => cd.PublisherNavigation)
+                .Include(cd => cd.Mechanics)
+                .Include(cd => cd.Categories).Include(cd => cd.Artists).Include(cd => cd.Authors).FirstAsync(g => g.Id == id);
+            return game ?? new Boardgame();
         }
     }
 }

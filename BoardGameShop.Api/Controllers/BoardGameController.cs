@@ -35,5 +35,14 @@
             }
             return Ok(result);
         }
+        [Produces("application/json")]
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> FindSingle(int id)
+        {
+            var game = await gameRepository.GetById(id);
+            if (game == null)
+                return NotFound();
+            return Ok(game.ConvertToDto());
+        }
     }
 }
