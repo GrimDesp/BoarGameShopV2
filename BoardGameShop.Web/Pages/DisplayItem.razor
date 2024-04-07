@@ -1,4 +1,4 @@
-﻿<div class="card m-1" style="width: 14rem;font-size:1.1rem;font-family:'Comic Sans MS'">
+﻿<div class="card m-1" style="width: 14rem;font-size:1.1rem;font-family:'Franklin Gothic Medium'">
     <a href="/game/@Product.Id" class="text-center align-self-center m-2 ">
         <img src=@Product.ImageUrl class="card-img-top" style="height:6rem; width:fit-content" alt="...">
     </a>
@@ -6,7 +6,7 @@
         <a href="/game/@Product.Id" class="card-text navbar-text text-decoration-none text-black">@Product.Name</a>
         @if(Product.Price > 0)
         {
-            <p class="fw-bold m-0" style="color:lightslategray;font-family:'Comic Sans MS'">
+            <p class="fw-bold m-0" style="color:lightslategray;font-family:'Franklin Gothic Medium''">
                 @Product.FullPrice.ToString("F0")
                 <span style="font-size:0.8em">грн</span>
                 <span class="fw-bold" style="color:indigo; ">
@@ -18,7 +18,7 @@
         }
         else
         {
-        <p class="fw-bold m-0" style="color:indigo; font-family:'Comic Sans MS'">
+            <p class="fw-bold m-0" style="color:indigo; font-family:'Franklin Gothic Medium'">
                 @Product.FullPrice.ToString("F0")
             <span style="font-size:0.8em">грн</span>
         </p>    

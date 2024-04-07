@@ -41,7 +41,7 @@ namespace BoardGameShop.Api.Extensions
                 MinPlayer = game.MinPlayer,
                 MaxPlayTime = game.MaxPlayTime,
                 MinPlayTime = game.MinPlayTime,
-                Price = game.Discount > 0 ? CalculatePrice(game.FullPrice, game.Discount ?? 0) : default,
+                Price = game.Discount > 0 ? CalculatePrice(game.FullPrice, (byte)game.Discount) : null,
                 ProductName = game.Name,
                 PublisherName = game.PublisherNavigation.Name,
                 TimeSpam = game.TimeSpam,

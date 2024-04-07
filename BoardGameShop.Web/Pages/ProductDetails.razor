@@ -65,7 +65,7 @@ else
                 </div>
                 <hr />
                 <div class="text-center">
-                    @if (Product.Price > 0)
+                    @if (Product.Price is not null)
                     {
                         <p class="fw-bold m-0" style="color:lightslategray">
                             @Product.FullPrice.ToString("F0")
@@ -87,7 +87,19 @@ else
                     <div class="justify-content-center align-content-center" style="height:3em">
                         @if (Product.IsAvaible)
                         {
-                            <a href="" class="btn btn-primary">Купити</a>
+                            <button @onclick="() => AddToCart(new CartItem
+                                {
+                                    Id = Product.ProductId,
+                                    Name = Product.ProductName,
+                                    PublisherName = Product.PublisherName,
+                                    Quantity = 1,
+                                    TimeStamp = Product.TimeSpam,
+                                    Price = Product.Price != null ? (decimal)Product.Price : Product.FullPrice,
+                                    ImageUrl = Product.ImageUrls.First()
+                                })" 
+                                class="btn btn-primary">
+                                Купити
+                            </button>
                         }
                         else
                         {

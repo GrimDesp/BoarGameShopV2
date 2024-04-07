@@ -26,10 +26,17 @@
                           style="font-size:1.5em" aria-hidden="true"></span> Настільні ігри
                 </NavLink>
             </div>
+            <div class="nav-item px-3 p-1 m-1">
+                <NavLink class="nav-link" href="cart">
+                    <span class="bi bi-basket3 justify-content-center align-content-center"
+                          style="font-size:1.5em" aria-hidden="true"></span> Кошик
+                </NavLink>
+            </div>
         </div>
     </div>
 </nav>
 @code {
+    
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
@@ -38,4 +45,5 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+    
 }
