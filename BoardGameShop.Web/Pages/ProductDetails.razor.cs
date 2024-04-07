@@ -4,7 +4,11 @@ namespace BoardGameShop.Web.Pages
     public partial class ProductDetails : ComponentBase
     {
         [Inject]
+        public NavigationManager NavigationManager { get; set; }
+        [Inject]
         public IProductService ProductService { get; set; }
+        [Inject]
+        public IShoppingCartLocalStorageService cartLocalStorageService { get; set; }
         [Parameter]
         public int Id { get; set; }
         public ProductDetailsDto Product { get; set; }
@@ -56,6 +60,11 @@ namespace BoardGameShop.Web.Pages
                 return " - ";
             }
             return $"{(byte)Product.Age.Value}+";
+        }
+        private async Task AddToCart(CartItem item)
+        {
+            await cartLocalStorageService.AddToCart(item);
+            NavigationManager.NavigateTo("/cart");
         }
     }
 }

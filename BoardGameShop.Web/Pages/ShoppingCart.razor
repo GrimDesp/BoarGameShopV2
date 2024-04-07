@@ -1,4 +1,86 @@
-﻿@page "/"
+﻿@page "/cart"
 @layout MainLayout
 
-<PageTitle>Page Title</PageTitle>
+<PageTitle>Корзина</PageTitle>
+<div class="container " style="font-size:1.2em; font-family:'Franklin Gothic Medium'">
+    <div class="row justify-content-center border p-2 border-2 border-end">
+
+        @if (CartItems == null || CartItems.Count <= 0)
+        {
+            <h3>Ваш кошик порожній</h3>
+            <a href="/games" class="btn btn-info mb-1">Перейти до покупок</a>
+        }
+        else
+        {
+            
+                <div class="col-10 ">
+                    @for (int i = 0; i < CartItems.Count; i++)
+                {
+                    var number = i;
+                    <div class="row border border-2 border-end p-1 m-1 ">
+
+                        <div class="col-4  justife-contend-end text-center">
+                            <img src="@CartItems[i].ImageUrl" style="height:8em; width:fit-content" />
+                        </div>
+                        <div class="col-6 justife-content-start align-content-center">
+                            <h3>@CartItems[i].Name</h3>
+                            <p style="font-size:0.8em">@CartItems[i].PublisherName</p>
+                        </div>
+                        <div class="col-2 justife-content-start align-content-center">
+                            <p>Ціна : @CartItems[i].Price.ToString("F0")<span style="font-size:0.8em">грн</span></p>
+                            <p>До сплати : @((CartItems[i].Price * CartItems[i].Quantity).ToString("F0"))<span style="font-size:0.8em">грн</span></p>
+                            <div class="text-center">
+                                <p>
+                                    @if (CartItems[i].Quantity > 1)
+                                    {
+                                        <button class="btn btn-outline-info btn-sm text-center m-1" style="border-radius:50%; height:2em; width:2em"
+                                        @onclick="()=>OnDecrement_Click(number)">
+                                            <i class="bi bi-arrow-left-short"></i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-outline-dark btn-sm text-center disabled m-1" style="border-radius:50%; height:2em; width:2em">
+                                            <i class="bi bi-arrow-left-short"></i>
+                                        </button>
+                                    }
+                                    @CartItems[i].Quantity
+                                    @if (CartItems[i].Quantity < quartItemLimit)
+                                    {
+                                        <button class="btn btn-outline-info btn-sm text-center m-1" style="border-radius:50%; height:2em; width:2em"
+                                                @onclick="() => OnIncrement_Click(number)">
+                                            <i class="bi bi-arrow-right-short"></i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-outline-dark btn-sm text-center disabled m-1" style="border-radius:50%; height:2em; width:2em">
+                                            <i class="bi bi-arrow-right-short"></i>
+                                        </button>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                
+                }
+                    <div class="row border border-2 border-dark  p-2 m-1 ">
+                        <div class="col-4 align-content-center">
+                            <button class="btn btn-info mb-1" @onclick="OnClear_Click">Очистити кошик</button>
+                            <a href="/games" class="btn btn-info mb-1">Повернутись до покупок</a>
+                        </div>
+                        <div class="col-4">
+                        </div>
+                        <div class="col-4 align-content-center text-end">
+                            <p>Всього до сплати : @((CartItems.Sum(c => c.Price * c.Quantity)).ToString("F0"))
+                                <span style="font-size:0.8em">грн</span></p>
+                            <a href="/cart" class="btn btn-info">Оформити замовлення</a>
+                        </div>
+                    </div>
+                </div>
+            
+        }
+    </div>
+</div>
