@@ -1,19 +1,25 @@
 ﻿@page "/login"
 @layout MainLayout
-
-<div class="container">
+<PageTitle>Увійти</PageTitle>
+<div class="container justify-content-center" style="font-size:1.2em; font-family:'Franklin Gothic Medium'">
     <div class="row justify-content-center">
-        <div class="col-6 border border-2 border-end">
+        <div class="col-6 py-2 border border-2 border-end">
             <form class="justify-content-center text-center">
-                <div class="mb-3">
-                    <label class="form-label" for="username">Логін</label>
-                    <input class="form-text" id="username" @bind="@_userLoginDto.Username" />
+                @if (!string.IsNullOrEmpty(_failRegMessage))
+                {
+                    <div class="my-2 m-1 row justify-content-center alert-danger">
+                        <span>@_failRegMessage</span>
+                    </div>
+                }
+                <div class="my-2 m-1 row justify-content-center">
+                    <label class="form-label col-lg-4 col-sm-12 m-1" for="username">Логін</label>
+                    <input class="form-text col-lg-4 col-sm-12 m-1" id="username" @bind="@User.Username" />
                 </div>
-                <div class="mb-3">
-                    <label class="form-label" for="password">Пароль</label>
-                    <input class="form-text" id="password" type="password" @bind="@_userLoginDto.Password" />
+                <div class="my-2 m-1 row justify-content-center">
+                    <label class="form-label col-lg-4 col-sm-12 m-1" for="password">Пароль</label>
+                    <input class="form-text col-lg-4 col-sm-12 m-1" id="password" type="password" @bind="@User.Password" />
                 </div>
-                <button class="btn btn-primary m-1">Увійти</button>
+                <button class="btn btn-primary m-1" type="button" @onclick="Login_OnClick">Увійти</button>
             </form>
         </div>
     </div>

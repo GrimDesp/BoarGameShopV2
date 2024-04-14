@@ -5,6 +5,7 @@ global using BoardGameShop.Web;
 global using BoardGameShop.Web.Services;
 global using BoardGameShop.Web.Services.Contracts;
 global using Microsoft.AspNetCore.Components;
+global using Microsoft.AspNetCore.Components.Authorization;
 global using Microsoft.AspNetCore.Components.Web;
 global using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 global using System;
