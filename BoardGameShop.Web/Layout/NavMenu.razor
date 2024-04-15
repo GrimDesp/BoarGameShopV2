@@ -35,9 +35,10 @@
             <AuthorizeView>
                 <Authorized>
                     <div class="nav-item px-3 p-1 m-1">
-                        <span style="color:aliceblue">
-                            Welcome @stateProvider.Username
-                        </span>
+                        <NavLink class="nav-link" href="account">
+                            <span class="bi bi-person justify-content-center align-content-center"
+                                  style="font-size:1.5em" aria-hidden="true"></span> @stateProvider.Username
+                        </NavLink>
                     </div>
                     <div class="nav-item px-3 p-1 m-1">
                         <button type="button" class="btn btn-danger justify-content-center" @onclick="auth.Logout">
@@ -50,7 +51,7 @@
 
                     <div class="nav-item px-3 p-1 m-1">
                         <NavLink class="nav-link" href="login">
-                            <span class="bi bi-person justify-content-center align-content-center"
+                            <span class="bi bi-door-open justify-content-center align-content-center"
                                   style="font-size:1.5em" aria-hidden="true"></span> Увійти
                         </NavLink>
                     </div>

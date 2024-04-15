@@ -19,7 +19,14 @@
                     <label class="form-label col-lg-4 col-sm-12 m-1" for="password">Пароль</label>
                     <input class="form-text col-lg-4 col-sm-12 m-1" id="password" type="password" @bind="@User.Password" />
                 </div>
-                <button class="btn btn-primary m-1" type="button" @onclick="Login_OnClick">Увійти</button>
+                @if(inRequest)
+                {
+                    <button class="btn btn-primary m-1 disabled" type="button">Увійти</button>
+                }
+                else
+                {
+                    <button class="btn btn-primary m-1" type="button" @onclick="Login_OnClick">Увійти</button>
+                }
             </form>
         </div>
     </div>
