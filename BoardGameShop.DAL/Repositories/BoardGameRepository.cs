@@ -21,6 +21,7 @@
             request = FilterByAuthors(request, filterDto.AuthorsIds);
             request = FilterByArtist(request, filterDto.ArtistIds);
             (request, totalItems) = await CountTotalPage(request);
+            request = request.OrderBy(x => x.Name);
             request = Pagination(request, filterDto.CurrentPage, filterDto.ItemsPerPage);
             request = request.Select(cd => new Boardgame
             {

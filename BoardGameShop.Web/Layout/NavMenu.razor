@@ -32,11 +32,45 @@
                           style="font-size:1.5em" aria-hidden="true"></span> Кошик
                 </NavLink>
             </div>
+            <AuthorizeView>
+                <Authorized>
+                    <div class="nav-item px-3 p-1 m-1">
+                        <NavLink class="nav-link" href="account">
+                            <span class="bi bi-person justify-content-center align-content-center"
+                                  style="font-size:1.5em" aria-hidden="true"></span> @stateProvider.Username
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3 p-1 m-1">
+                        <button type="button" class="btn btn-danger justify-content-center" @onclick="auth.Logout">
+                            <span class="bi bi-person-dash justify-content-center align-content-center"
+                                  style="font-size:1.5em" aria-hidden="true"></span> Вийти
+                        </button>
+                    </div>
+                </Authorized>
+                <NotAuthorized>
+
+                    <div class="nav-item px-3 p-1 m-1">
+                        <NavLink class="nav-link" href="login">
+                            <span class="bi bi-door-open justify-content-center align-content-center"
+                                  style="font-size:1.5em" aria-hidden="true"></span> Увійти
+                        </NavLink>
+                    </div>
+                    <div class="nav-item px-3 p-1 m-1">
+                        <NavLink class="nav-link" href="registration">
+                            <span class="bi bi-person-add justify-content-center align-content-center"
+                                  style="font-size:1.5em" aria-hidden="true"></span> Зареєструватись
+                        </NavLink>
+                    </div>
+                </NotAuthorized>
+            </AuthorizeView>
         </div>
     </div>
 </nav>
 @code {
-    
+    [Inject]
+    public CustomAuthStateProvider stateProvider { get; set; }
+    [Inject]
+    public IAuthService auth { get; set; }
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;

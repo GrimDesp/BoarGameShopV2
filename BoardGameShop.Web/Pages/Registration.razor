@@ -1,0 +1,36 @@
+﻿@page "/registration"
+@layout MainLayout
+
+<PageTitle>Реєстрація</PageTitle>
+
+<div class="container justify-content-center" style="font-size:1.2em; font-family:'Franklin Gothic Medium'">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-sm-12 py-2 border border-2 border-end">
+            <form class="justify-content-center text-center">
+                @if(!string.IsNullOrEmpty(_failRegMessage))
+                {
+                    <div class="my-2 m-1 row justify-content-center alert-danger">
+                        <span>@_failRegMessage</span>
+                    </div>
+                }
+                <div class="my-2 m-1 row justify-content-center">
+                    <label class="form-label col-lg-4 col-sm-12 m-1" for="email">Електронна почта</label>
+                    <input class="form-text col-lg-4 col-sm-12 m-1" id="email" type="email" @bind="@User.Email" />
+                </div>
+                <div class="my-2 m-1 row justify-content-center">
+                    <label class="form-label col-lg-4 col-sm-12 m-1" for="username">Логін</label>
+                    <input class="form-text col-lg-4 col-sm-12 m-1" id="username" @bind="@User.Username" />
+                </div>
+                <div class="my-2 m-1 row justify-content-center">
+                    <label class="form-label col-lg-4 col-sm-12 m-1" for="password">Пароль</label>
+                    <input class="form-text col-lg-4 col-sm-12 m-1" id="password" type="password" @bind="@Password" />
+                </div>
+                <div class="my-2 m-1 row justify-content-center">
+                    <label class="form-label col-lg-4 col-sm-12 m-1" for="2password">Повторно пароль</label>
+                    <input class="form-text col-lg-4 col-sm-12 m-1" id="2password" type="password" @bind="@SecondPassword" />
+                </div>
+                <button class="btn btn-primary m-1" type="button" @onclick="Registration_OnClick">Зареєструватись</button>
+            </form>
+        </div>
+    </div>
+</div>
