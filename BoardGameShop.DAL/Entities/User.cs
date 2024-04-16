@@ -20,5 +20,7 @@
         public byte[] PasswordSalt { get; set; }
         [StringLength(20)]
         public string PhoneNumber { get; set; } = string.Empty;
+        [ForeignKey(nameof(Order.UserId))]
+        public IEnumerable<Order> Orders { get; set; } = Enumerable.Empty<Order>();
     }
 }

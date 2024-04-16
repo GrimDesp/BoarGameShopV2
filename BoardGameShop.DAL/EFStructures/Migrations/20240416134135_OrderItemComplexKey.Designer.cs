@@ -4,6 +4,7 @@ using BoardGameShop.DAL.EFStructures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BoardGameShop.DAL.EFStructures.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240416134135_OrderItemComplexKey")]
+    partial class OrderItemComplexKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -258,20 +261,16 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                     b.Property<DateTime>("CreationTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValueSql("getdate()");
+                        .HasDefaultValue(new DateTime(2024, 4, 16, 13, 41, 35, 7, DateTimeKind.Utc).AddTicks(516));
 
                     b.Property<string>("MessageFromUser")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OrderStatus")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("int");
 
                     b.Property<int>("PaymentStatus")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
+                        .HasColumnType("int");
 
                     b.Property<int>("PublisherId")
                         .HasColumnType("int");
@@ -286,10 +285,6 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PublisherId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -481,21 +476,6 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                     b.Navigation("MechanicNavigation");
                 });
 
-            modelBuilder.Entity("BoardGameShop.DAL.Entities.Order", b =>
-                {
-                    b.HasOne("BoardGameShop.DAL.Entities.Publisher", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("PublisherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BoardGameShop.DAL.Entities.User", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("BoardGameShop.DAL.Entities.OrderItem", b =>
                 {
                     b.HasOne("BoardGameShop.DAL.Entities.Order", "OrderNavigation")
@@ -546,13 +526,6 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
             modelBuilder.Entity("BoardGameShop.DAL.Entities.Publisher", b =>
                 {
                     b.Navigation("BoardGames");
-
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("BoardGameShop.DAL.Entities.User", b =>
-                {
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
