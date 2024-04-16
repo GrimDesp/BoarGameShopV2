@@ -11,6 +11,10 @@
                 .IsRequired()
                 .HasForeignKey(x => x.PublisherId);
 
+            builder.HasOne(x => x.VendorNavigation)
+                .WithMany(y => y.Boardgames)
+                .HasForeignKey(x => x.VendorId);
+
             builder.HasMany(x => x.Mechanics)
                 .WithMany(y => y.Boardgames)
                 .UsingEntity<BoardgameToMechanic>(

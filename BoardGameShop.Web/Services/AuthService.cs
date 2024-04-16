@@ -61,7 +61,7 @@ namespace BoardGameShop.Web.Services
             await authState.GetAuthenticationStateAsync();
         }
 
-        public async Task<UserUpdateDto> GetUserData()
+        public async Task<UserPersonalInfoDto> GetUserData()
         {
             try
             {
@@ -73,7 +73,7 @@ namespace BoardGameShop.Web.Services
                 }
                 if (responce.IsSuccessStatusCode)
                 {
-                    var user = await responce.Content.ReadFromJsonAsync<UserUpdateDto>();
+                    var user = await responce.Content.ReadFromJsonAsync<UserPersonalInfoDto>();
                     return user;
                 }
                 throw new Exception("Щось пішло не так");
@@ -84,7 +84,7 @@ namespace BoardGameShop.Web.Services
             }
         }
 
-        public async Task UpdateUser(UserUpdateDto userUpdateDto)
+        public async Task UpdateUser(UserPersonalInfoDto userUpdateDto)
         {
             try
             {

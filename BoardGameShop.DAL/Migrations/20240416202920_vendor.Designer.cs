@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BoardGameShop.DAL.EFStructures.Migrations
+namespace BoardGameShop.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240416142940_OrderDefaultValueFix")]
-    partial class OrderDefaultValueFix
+    [Migration("20240416202920_vendor")]
+    partial class vendor
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -124,9 +124,14 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
+                    b.Property<int>("VendorId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PublisherId");
+
+                    b.HasIndex("VendorId");
 
                     b.ToTable("BoardGames", (string)null);
                 });
@@ -255,10 +260,10 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("CompletionTime")
+                    b.Property<DateTime?>("CompletionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("CreationTime")
+                    b.Property<DateTime>("CreationDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("getdate()");
@@ -270,6 +275,9 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(0);
+
+                    b.Property<DateTime?>("PaymentDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("PaymentStatus")
                         .ValueGeneratedOnAdd()
@@ -397,6 +405,29 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("BoardGameShop.DAL.Entities.Vendor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("TimeSpam")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Vendors");
+                });
+
             modelBuilder.Entity("BoardGameShop.DAL.Entities.Boardgame", b =>
                 {
                     b.HasOne("BoardGameShop.DAL.Entities.Publisher", "PublisherNavigation")
@@ -405,7 +436,15 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BoardGameShop.DAL.Entities.Vendor", "VendorNavigation")
+                        .WithMany("Boardgames")
+                        .HasForeignKey("VendorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("PublisherNavigation");
+
+                    b.Navigation("VendorNavigation");
                 });
 
             modelBuilder.Entity("BoardGameShop.DAL.Entities.BoardgameToArtist", b =>
@@ -556,6 +595,11 @@ namespace BoardGameShop.DAL.EFStructures.Migrations
             modelBuilder.Entity("BoardGameShop.DAL.Entities.User", b =>
                 {
                     b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("BoardGameShop.DAL.Entities.Vendor", b =>
+                {
+                    b.Navigation("Boardgames");
                 });
 #pragma warning restore 612, 618
         }

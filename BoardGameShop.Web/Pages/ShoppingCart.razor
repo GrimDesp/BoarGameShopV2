@@ -76,7 +76,14 @@
                         <div class="col-4 align-content-center text-end">
                             <p>Всього до сплати : @((CartItems.Sum(c => c.Price * c.Quantity)).ToString("F0"))
                                 <span style="font-size:0.8em">грн</span></p>
-                            <a href="/cart" class="btn btn-info">Оформити замовлення</a>
+                            <AuthorizeView>
+                                <Authorized>
+                                    <a href="/orders/create" class="btn btn-info">Оформити замовлення</a>
+                                </Authorized>
+                                <NotAuthorized>
+                                    <a href="/login" class="btn btn-info">Увійти</a>
+                                </NotAuthorized>
+                            </AuthorizeView>
                         </div>
                     </div>
                 </div>

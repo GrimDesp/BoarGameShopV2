@@ -12,6 +12,12 @@ foreach (var file in dir.GetFiles())
     Console.WriteLine(file);
 }
  */
-
-global using BoardGameShop.Model.Enums;
+using BoardGameShop.DAL.EfStructures;
+using BoardGameShop.DAL.Repositories;
+using BoardGameShop.Model.Enums;
+using Microsoft.EntityFrameworkCore;
 Console.WriteLine(Role.Publisher.ToString());
+var context = new ApplicationDbContextFactory().CreateDbContext(null);
+var bgRepo = new BoardGameRepository(context);
+var game = await bgRepo.GetById(1);
+Console.WriteLine(game.VendorNavigation.Name);

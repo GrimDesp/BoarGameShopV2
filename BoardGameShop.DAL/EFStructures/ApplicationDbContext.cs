@@ -12,6 +12,7 @@
         public DbSet<User> Users { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Vendor> Vendors { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             new BoardgameConfiguration().Configure(modelBuilder.Entity<Boardgame>());

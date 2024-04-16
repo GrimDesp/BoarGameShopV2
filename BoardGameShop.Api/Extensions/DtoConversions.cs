@@ -45,6 +45,8 @@ namespace BoardGameShop.Api.Extensions
                 ProductName = game.Name,
                 PublisherName = game.PublisherNavigation.Name,
                 TimeSpam = game.TimeSpam,
+                VendorId = game.VendorNavigation.Id,
+                VendorName = game.VendorNavigation.Name,
                 ImageUrls = LoadImageUrls(game.Id).ToList()
             };
         }

@@ -1,6 +1,6 @@
 ﻿namespace BoardGameShop.Model.Dtos
 {
-    public class UserUpdateDto
+    public class UserPersonalInfoDto
     {
         public string? Firstname { get; set; }
         public string? Secondname { get; set; }

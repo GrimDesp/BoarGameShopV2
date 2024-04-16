@@ -60,11 +60,11 @@ namespace BoardGameShop.Api.Controllers
             return Ok(token);
         }
         [HttpGet("userData"), Authorize]
-        public async Task<ActionResult<UserUpdateDto>> GetUserData()
+        public async Task<ActionResult<UserPersonalInfoDto>> GetUserData()
         {
             string Username = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _userRepository.GetUserByUsername(Username)
-                .Select(u => new UserUpdateDto
+                .Select(u => new UserPersonalInfoDto
                 {
                     Firstname = u.FirstName,
                     Lastname = u.LastName,
@@ -74,7 +74,7 @@ namespace BoardGameShop.Api.Controllers
             return user;
         }
         [HttpPost("updateUser"), Authorize]
-        public async Task<IActionResult> UpdateUser(UserUpdateDto request)
+        public async Task<IActionResult> UpdateUser(UserPersonalInfoDto request)
         {
             bool isParse = Int32.TryParse(User.FindFirstValue(ClaimTypes.Sid), out int id);
             if (!isParse)

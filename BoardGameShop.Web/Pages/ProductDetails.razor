@@ -95,6 +95,8 @@ else
                                     Quantity = 1,
                                     TimeStamp = Product.TimeSpam,
                                     Price = Product.Price != null ? (decimal)Product.Price : Product.FullPrice,
+                                    VendorId = Product.VendorId,
+                                    VendorName = Product.VendorName,
                                     ImageUrl = Product.ImageUrls.First()
                                 })" 
                                 class="btn btn-primary">

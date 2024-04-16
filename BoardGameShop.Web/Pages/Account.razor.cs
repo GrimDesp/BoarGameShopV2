@@ -6,8 +6,8 @@ namespace BoardGameShop.Web.Pages
         [Inject]
         public NavigationManager navManager { get; set; }
         [Inject]
-        public IAuthService authService { get; set; }
-        public UserUpdateDto? user { get; set; }
+        public IAuthService AuthService { get; set; }
+        public UserPersonalInfoDto? user { get; set; }
         public string Firstname { get; set; } = string.Empty;
         public string Lastname { get; set; } = string.Empty;
         public string SecondName { get; set; } = string.Empty;
@@ -17,7 +17,7 @@ namespace BoardGameShop.Web.Pages
         private bool inRequest = false;
         protected async override Task OnInitializedAsync()
         {
-            user = await authService.GetUserData() ?? new UserUpdateDto();
+            user = await AuthService.GetUserData() ?? new UserPersonalInfoDto();
         }
         private async void Submit_OnClick()
         {
@@ -50,7 +50,7 @@ namespace BoardGameShop.Web.Pages
             }
             try
             {
-                await authService.UpdateUser(user);
+                await AuthService.UpdateUser(user);
                 succesMessage = "Дані змінено успішно";
             }
             catch (Exception ex)

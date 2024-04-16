@@ -23,4 +23,8 @@
     <ProjectReference Include="..\BoardGameShop.Model\BoardGameShop.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EFStructures\Migrations\" />
+  </ItemGroup>
+
 </Project>

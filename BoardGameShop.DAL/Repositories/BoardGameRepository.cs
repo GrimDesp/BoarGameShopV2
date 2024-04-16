@@ -1,4 +1,6 @@
-﻿namespace BoardGameShop.DAL.Repositories
+﻿using Microsoft.Identity.Client;
+
+namespace BoardGameShop.DAL.Repositories
 {
     public class BoardGameRepository : BaseRepository<Boardgame>, IBoardGameRepository
     {
@@ -80,8 +82,12 @@
         public async Task<Boardgame> GetById(int id)
         {
             var game = await Table.Include(cd => cd.PublisherNavigation)
+                .Include(cd => cd.VendorNavigation)
                 .Include(cd => cd.Mechanics)
-                .Include(cd => cd.Categories).Include(cd => cd.Artists).Include(cd => cd.Authors).FirstAsync(g => g.Id == id);
+                .Include(cd => cd.Categories)
+                .Include(cd => cd.Artists)
+                .Include(cd => cd.Authors)
+                .FirstAsync(g => g.Id == id);
             return game ?? new Boardgame();
         }
     }

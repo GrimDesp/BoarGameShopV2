@@ -46,6 +46,9 @@
         [Required, ForeignKey(nameof(PublisherId))]
         [InverseProperty(nameof(Publisher.BoardGames))]
         public Publisher PublisherNavigation { get; set; } = new();
+        public int VendorId { get; set; }
+        [InverseProperty(nameof(Vendor.Boardgames))]
+        public Vendor VendorNavigation { get; set; } = new();
 
 
     }
