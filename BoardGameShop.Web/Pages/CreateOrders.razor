@@ -2,14 +2,14 @@
 @layout MainLayout
 
 <PageTitle>Створити замовлення</PageTitle>
-<div class="container p-lg-2 border border-secondary border-3 justify-content-center">
+<div class="container p-lg-2 border border-secondary border-3 justify-content-center text-center" style="font-size:1.1em; font-family:'Franklin Gothic Medium'">
         @if(InitErrorMessage == null && user == null)
         {
             <LoadingSpinner></LoadingSpinner>
         }
         else if(InitErrorMessage != null)
         {
-            @InitErrorMessage
+            <span class="alert-danger">@InitErrorMessage</span>
         }
         else
         {
@@ -23,38 +23,104 @@
                 {
                     <div class="row">
                         <label class="col-lg-4 col-sm-12 form-label m-1 p-2 justify-content-center  text-end" for="name">Ім`я</label>
-                        <input class="col-lg-6 col-sm-12 form-text m-1 p-2 justify-content-center" id="name" @bind="user.Firstname" />
+                        <input class="col-lg-6 col-sm-12 form-text m-1 p-2 justify-content-center" id="name" autocomplete="off" @bind="user.Firstname" />
                     </div>
                     <div class="row">
                         <label class="col-lg-4 col-sm-12 form-label m-1 p-2 justify-content-center  text-end" for="last">Фамілія</label>
-                        <input class="col-lg-6 col-sm-12 form-text m-1 p-2 justify-content-center" id="last" @bind="user.Lastname" />
+                        <input class="col-lg-6 col-sm-12 form-text m-1 p-2 justify-content-center" id="last" autocomplete="off" @bind="user.Lastname" />
                     </div>
                     <div class="row">
                         <label class="col-lg-4 col-sm-12 form-label m-1 p-2 justify-content-center  text-end" for="second">По батькові</label>
-                        <input class="col-lg-6 col-sm-12 form-text m-1 p-2 justify-content-center" id="second" @bind="user.Secondname" />
+                        <input class="col-lg-6 col-sm-12 form-text m-1 p-2 justify-content-center" id="second" autocomplete="off" @bind="user.Secondname" />
                     </div>
                     <div class="row">
                         <label class="col-lg-4 col-sm-12 form-label m-1 p-2 justify-content-center  text-end" for="phone">Номер телефону</label>
-                        <input class="col-lg-6 col-sm-12 form-text m-1 p-2 justify-content-center" id="phone" @bind="user.PhoneNumber" />
+                        <input class="col-lg-6 col-sm-12 form-text m-1 p-2 justify-content-center" id="phone" autocomplete="off" @bind="user.PhoneNumber" />
+                    </div>
+                    <div class="row">
+                        <label class="col-lg-4 col-sm-12 form-label m-1 p-2 justify-content-center  text-end" for="address">Адреса доставки</label>
+                        <input class="col-lg-6 col-sm-12 form-text m-1 p-2 justify-content-center" id="address" autocomplete="off" @bind="deliveryAddress" />
                     </div>
                 }
             </div>
         </div>
+        <hr />
             @if(OrdersByName == null)
             {
                 <LoadingSpinner></LoadingSpinner>
             }
             else
             {
+                <div class="accordion">
                 @foreach (var order in OrdersByName)
                 {
+                    string name = order.Key;
                     <div class="row m-2 justify-content-center ">
-                        <div class="col-lg-8 col-sm-10 p-2 border border-end border-2  text-center">
-                            <span>@order.Key</span>
+                        <div class="col-lg-8 col-sm-10 p-2 accordion-item text-center">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#@(name + "collapse")" aria-expanded="true" aria-controls="@(name + "collapse")">
+                                    <span>Замовлення : @order.Key, до сплати : @order.Value.Sum(i => i.Quantity * i.Price).ToString("F0") </span>
+                                </button>
+                            </h2>
+                            <div id="@(name + "collapse")" class="accordion-collapse collapse">
+                                <div  class="accordion-body">
+                                    <span>Замовлення для постачальника @order.Key</span>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Ім'я</th>
+                                                <th scope="col">Виробник</th>
+                                                <th scope="col">Кількість</th>
+                                                <th scope="col">Ціна</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in order.Value)
+                                            {
+                                                <tr>
+                                                    <th scope="row"><a class="nav-link link-dark p-2 align-content-center" href="/game/@item.Id">@item.Name</a></th>
+                                                    <td class="p-2 align-content-center">@item.PublisherName</td>
+                                                    <td class="p-2 align-content-center">@item.Quantity</td>
+                                                    <td class="p-2 align-content-center">@((item.Price * item.Quantity).ToString("F0"))</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th scope="row" class="text-end" colspan="3">До сплати : </th>
+                                                <td>@order.Value.Sum(i => i.Quantity*i.Price).ToString("F0")</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                    @if(inRequest)
+                                    {
+                                        <button type="button" class="btn btn-danger disabled">Видалити замовлення</button>
+
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-danger" @onclick="()=> RemoveOrder(order.Key)">Видалити замовлення</button>
+                                    }
+                                </div>
+                            </div>
                         </div>
                     </div>
-
                 }
+                </div>
             }
+        <hr />
+        <div class="row m-2 justify-content-center ">
+            <div class="col-lg-8 col-sm-10 p-2 border border-end border-2  text-center">
+                <span class="mx-2">Всього до сплати : @(OrdersByName.Sum(o => o.Value.Sum(i => i.Quantity * i.Price)).ToString("F2"))</span>
+                @if(inRequest)
+                {
+                    <button class="btn btn-success disabled">Створити замовлення</button>
+                }
+                else
+                {
+                    <button class="btn btn-success" @onclick="CreateOrders_OnClick">Створити замовлення</button>
+                }
+            </div>
+        </div>
         }
 </div>

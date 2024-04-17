@@ -9,6 +9,7 @@ namespace BoardGameShop.Web.Pages
         public IShoppingCartLocalStorageService CartLocalStorageService { get; set; }
         public List<CartItem>? CartItems { get; set; }
         private int quartItemLimit = 10;
+        private bool inDelete = false;
         protected async override Task OnInitializedAsync()
         {
             var items = await CartLocalStorageService.GetCartItemsAsync();
@@ -28,6 +29,15 @@ namespace BoardGameShop.Web.Pages
         {
             await CartLocalStorageService.Clear();
             NavigationManager.NavigateTo("");
+        }
+        private async void OnDelete_Click(int i)
+        {
+            inDelete = true;
+            await CartLocalStorageService.RemoveFromCart(CartItems[i]);
+            var items = await CartLocalStorageService.GetCartItemsAsync();
+            CartItems = items.ToList();
+            inDelete = false;
+            StateHasChanged();
         }
     }
 }

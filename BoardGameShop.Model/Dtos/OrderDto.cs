@@ -9,7 +9,7 @@ namespace BoardGameShop.Model.Dtos
     public class OrderDto
     {
         public IEnumerable<OrderItemDto> Items { get; set; }
-        public int PublisherId { get; set; }
+        public int VendorId { get; set; }
         public UserPersonalInfoDto User { get; set; }
         public string? DeliveryAddress { get; set; }
     }
