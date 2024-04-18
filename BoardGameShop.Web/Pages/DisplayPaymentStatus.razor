@@ -1,0 +1,30 @@
+﻿<span class="badge bg-@color">@message</span>
+@code {
+    [Parameter]
+    public PaymentStatus PaymentStatus { get; set; }
+    private string message = "доставлено";
+    private string color = "danger";
+    protected override Task OnInitializedAsync()
+    {
+        switch (PaymentStatus)
+        {
+            case PaymentStatus.Rollback:
+                color = "secondary";
+                message = "Повернуто";
+                break;
+            case PaymentStatus.Paid:
+                color = "success";
+                message = "Оплачено";
+                break;
+            case PaymentStatus.NotPaid:
+                color = "danger";
+                message = "Не оплачено";
+                break;
+            default:
+                color = "danger";
+                message = "Невідомий статус";
+                break;
+        }
+        return base.OnInitializedAsync();
+    }
+}

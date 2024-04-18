@@ -58,6 +58,17 @@
                                             <i class="bi bi-arrow-right-short"></i>
                                         </button>
                                     }
+                                    @if(inDelete)
+                                    {
+                                        <button class="btn btn-danger disabled"><span class="bi bi-trash-fill"></span></button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-danger"
+                                                @onclick="() => OnDelete_Click(number)">
+                                            <span class="bi bi-trash-fill"></span>
+                                        </button>
+                                    }
                                 </p>
                             </div>
                         </div>
@@ -76,7 +87,14 @@
                         <div class="col-4 align-content-center text-end">
                             <p>Всього до сплати : @((CartItems.Sum(c => c.Price * c.Quantity)).ToString("F0"))
                                 <span style="font-size:0.8em">грн</span></p>
-                            <a href="/cart" class="btn btn-info">Оформити замовлення</a>
+                            <AuthorizeView>
+                                <Authorized>
+                                    <a href="/orders/create" class="btn btn-info">Оформити замовлення</a>
+                                </Authorized>
+                                <NotAuthorized>
+                                    <a href="/login" class="btn btn-info">Увійти</a>
+                                </NotAuthorized>
+                            </AuthorizeView>
                         </div>
                     </div>
                 </div>

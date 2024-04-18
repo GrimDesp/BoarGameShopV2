@@ -20,5 +20,6 @@
         public byte[] PasswordSalt { get; set; }
         [StringLength(20)]
         public string PhoneNumber { get; set; } = string.Empty;
+        public List<Order> Orders { get; set; }
     }
 }

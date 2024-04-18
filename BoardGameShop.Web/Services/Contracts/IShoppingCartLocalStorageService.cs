@@ -9,5 +9,7 @@
         Task Clear();
         Task UpdateCartItem(CartItem item);
         Task RemoveFromCart(int id);
+        Task RemoveFromCartRange(IEnumerable<CartItem> items);
+        Task RemoveFromCartByVendor(string name);
     }
 }

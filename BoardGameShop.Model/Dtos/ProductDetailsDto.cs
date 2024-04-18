@@ -7,6 +7,8 @@
         public string ProductName { get; set; } = string.Empty;
         public string? Description { get; set; } = string.Empty;
         public string PublisherName { get; set; } = string.Empty;
+        public string VendorName { get; set; } = string.Empty;
+        public int VendorId { get; set; }
         public int? MinPlayer { get; set; }
         public int? MaxPlayer { get; set; }
         public decimal FullPrice { get; set; }

@@ -35,7 +35,9 @@ namespace BoardGameShop.Web.Services
             var items = await localStorage.GetItemAsync<IEnumerable<CartItem>>(key);
             if (items == null)
                 return;
-            await localStorage.SetItemAsync(key, items.ToList().Remove(item));
+            var newItems = items.ToList();
+            newItems.RemoveAll(i => i.Id == item.Id);
+            await localStorage.SetItemAsync(key, newItems);
         }
         public async Task RemoveFromCart(int id)
         {
@@ -46,14 +48,30 @@ namespace BoardGameShop.Web.Services
             listItems.RemoveAll(i => i.Id == id);
             await localStorage.SetItemAsync(key, listItems);
         }
+        public async Task RemoveFromCartRange(IEnumerable<CartItem> items)
+        {
+            var cartItems = await localStorage.GetItemAsync<IEnumerable<CartItem>>(key);
+            if (cartItems == null)
+                return;
+            await localStorage.SetItemAsync(key, cartItems.ToList().RemoveAll(i => items.Contains(i)));
+        }
+        public async Task RemoveFromCartByVendor(string name)
+        {
+            var cartItems = await localStorage.GetItemAsync<IEnumerable<CartItem>>(key);
+            if (cartItems == null)
+                return;
+            await localStorage.SetItemAsync(key, cartItems.Where(i => i.VendorName != name));
+        }
         public async Task Clear()
         {
-            await localStorage.ClearAsync();
+            await localStorage.RemoveItemAsync(key);
         }
 
         public async void Dispose()
         {
-            await this.Clear();
+
         }
+
+
     }
 }

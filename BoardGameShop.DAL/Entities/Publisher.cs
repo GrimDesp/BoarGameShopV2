@@ -7,5 +7,6 @@
         public string Name { get; set; } = string.Empty;
         [InverseProperty(nameof(Boardgame.PublisherNavigation))]
         public IEnumerable<Boardgame> BoardGames { get; set; } = new List<Boardgame>();
+
     }
 }

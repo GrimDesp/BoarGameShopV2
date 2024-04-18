@@ -1,0 +1,21 @@
+﻿<div class="row">
+    <label class="col-lg-4 col-sm-12 form-label m-1 p-2 justify-content-center  text-end" for="name">Ім`я</label>
+    <input class="col-lg-6 col-sm-12 form-text m-1 p-2 justify-content-center" id="name" @bind="user.Firstname" />
+</div>
+<div class="row">
+    <label class="col-lg-4 col-sm-12 form-label m-1 p-2 justify-content-center  text-end" for="last">Фамілія</label>
+    <input class="col-lg-6 col-sm-12 form-text m-1 p-2 justify-content-center" id="last" @bind="user.Lastname" />
+</div>
+<div class="row">
+    <label class="col-lg-4 col-sm-12 form-label m-1 p-2 justify-content-center  text-end" for="second">По батькові</label>
+    <input class="col-lg-6 col-sm-12 form-text m-1 p-2 justify-content-center" id="second" @bind="user.Secondname" />
+</div>
+<div class="row">
+    <label class="col-lg-4 col-sm-12 form-label m-1 p-2 justify-content-center  text-end" for="phone">Номер телефону</label>
+    <input class="col-lg-6 col-sm-12 form-text m-1 p-2 justify-content-center" id="phone" @bind="user.PhoneNumber" />
+</div>
+@code {
+    public EventCallback<UserPersonalInfoDto> eventCallback { get; set; }
+    [Parameter]
+    public UserPersonalInfoDto user { get; set; }
+}

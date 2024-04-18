@@ -5,7 +5,7 @@
         Task Login(UserLoginDto userLoginDto);
         Task Registration(UserRegistrationDto userRegistrationDto);
         Task Logout();
-        Task<UserUpdateDto> GetUserData();
-        Task UpdateUser(UserUpdateDto userUpdateDto);
+        Task<UserPersonalInfoDto> GetUserData();
+        Task UpdateUser(UserPersonalInfoDto userUpdateDto);
     }
 }
