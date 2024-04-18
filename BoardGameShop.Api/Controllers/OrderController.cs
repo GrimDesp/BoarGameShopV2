@@ -90,7 +90,7 @@ namespace BoardGameShop.Api.Controllers
             }
         }
         [HttpGet("userOrders")]
-        [Authorize]
+        [Authorize(Roles = nameof(Role.User))]
         public async Task<ActionResult<IEnumerable<OrderDetailsDto>>> GetUserOrders()
         {
             try

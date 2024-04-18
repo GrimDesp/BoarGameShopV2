@@ -63,6 +63,14 @@ namespace BoardGameShop.Web.Services
                     return await responce.Content.ReadFromJsonAsync<IEnumerable<OrderDetailsDto>>()
                         ?? new List<OrderDetailsDto>();
                 }
+                if (responce.StatusCode == HttpStatusCode.Forbidden)
+                {
+                    throw new Exception("У вас недостатньо прав для перегляду сторінки");
+                }
+                if (responce.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new Exception("ви не авторизовані");
+                }
                 throw new Exception("Щось пішло не так : " + await responce.Content.ReadAsStringAsync());
             }
             catch (Exception ex)
