@@ -52,6 +52,8 @@ namespace BoardGameShop.Web.Pages
         }
         private async Task CreateOrders_OnClick()
         {
+            errorMessage = string.Empty;
+            InitErrorMessage = string.Empty;
             inRequest = true;
             Orders.Clear();
             foreach (var item in OrdersByName)
@@ -72,6 +74,8 @@ namespace BoardGameShop.Web.Pages
             catch (Exception ex)
             {
                 errorMessage = ex.Message;
+                inRequest = false;
+                StateHasChanged();
             }
         }
     }

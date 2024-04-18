@@ -21,25 +21,25 @@
         public byte? Discount { get; set; }
 
         [InverseProperty(nameof(Category.Boardgames))]
-        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
+        public List<Category> Categories { get; set; } = new List<Category>();
         [InverseProperty(nameof(BoardgameToCategory.BoardgameNavigation))]
-        public IEnumerable<BoardgameToCategory> BoardgameCategories { get; set; } = new List<BoardgameToCategory>();
+        public List<BoardgameToCategory> BoardgameCategories { get; set; } = new List<BoardgameToCategory>();
 
 
         [InverseProperty(nameof(BoardgameToMechanic.BoardgameNavigation))]
-        public IEnumerable<BoardgameToMechanic> BoardgameMechanics { get; set; } = new List<BoardgameToMechanic>();
+        public List<BoardgameToMechanic> BoardgameMechanics { get; set; } = new List<BoardgameToMechanic>();
         [InverseProperty(nameof(Mechanic.Boardgames))]
-        public IEnumerable<Mechanic> Mechanics { get; set; } = new List<Mechanic>();
+        public List<Mechanic> Mechanics { get; set; } = new List<Mechanic>();
 
         [InverseProperty(nameof(Author.Boardgames))]
-        public IEnumerable<Author> Authors { get; set; } = new List<Author>();
+        public List<Author> Authors { get; set; } = new List<Author>();
         [InverseProperty(nameof(BoardgameToAuthor.BoardgameNavigation))]
-        public IEnumerable<BoardgameToAuthor> BoardgameAuthors { get; set; } = new List<BoardgameToAuthor>();
+        public List<BoardgameToAuthor> BoardgameAuthors { get; set; } = new List<BoardgameToAuthor>();
 
         [InverseProperty(nameof(Artist.Boardgames))]
-        public IEnumerable<Artist> Artists { get; set; } = new List<Artist>();
+        public List<Artist> Artists { get; set; } = new List<Artist>();
         [InverseProperty(nameof(BoardgameToArtist.BoardgameNavigation))]
-        public IEnumerable<BoardgameToArtist> BoardgameArtists { get; set; } = new List<BoardgameToArtist>();
+        public List<BoardgameToArtist> BoardgameArtists { get; set; } = new List<BoardgameToArtist>();
 
         [Required]
         public int PublisherId { get; set; }

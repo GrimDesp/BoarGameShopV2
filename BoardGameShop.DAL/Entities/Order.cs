@@ -10,13 +10,19 @@
         public DateTime? CompletionDate { get; set; }
         public DateTime? PaymentDate { get; set; }
         [Required]
-        public int PublisherId { get; set; }
+        public int VendorId { get; set; }
+        public Vendor? VendorNavigation { get; set; }
+        public string? Firstname { get; set; }
+        public string? Lastname { get; set; }
+        public string? Secondname { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? DeliveryAddress { get; set; }
         public string? MessageFromUser { get; set; }
         [Required]
         public OrderStatus OrderStatus { get; set; }
         [Required]
         public PaymentStatus PaymentStatus { get; set; }
-        [Required]
-        public IEnumerable<OrderItem> OrderItems { get; set; } = Enumerable.Empty<OrderItem>();
+        [InverseProperty(nameof(OrderItem.OrderNavigation))]
+        public List<OrderItem>? OrderItems { get; set; }
     }
 }

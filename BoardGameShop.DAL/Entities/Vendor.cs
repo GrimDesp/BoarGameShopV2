@@ -4,6 +4,7 @@
     {
         public string Name { get; set; } = string.Empty;
         [InverseProperty(nameof(Boardgame.VendorNavigation))]
-        public IEnumerable<Boardgame> Boardgames { get; set; } = new List<Boardgame>();
+        public List<Boardgame> Boardgames { get; set; } = new List<Boardgame>();
+        public List<Order> Orders { get; set; } = new List<Order>();
     }
 }

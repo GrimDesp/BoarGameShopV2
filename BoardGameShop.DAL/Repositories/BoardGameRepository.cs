@@ -90,5 +90,10 @@ namespace BoardGameShop.DAL.Repositories
                 .FirstAsync(g => g.Id == id);
             return game ?? new Boardgame();
         }
+
+        public IQueryable<Boardgame> GetByVendor(int vendorId)
+        {
+            return Table.Where(g => g.VendorId == vendorId);
+        }
     }
 }

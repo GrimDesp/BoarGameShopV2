@@ -61,6 +61,11 @@
             Table.Update(entity);
             return persiste ? await SaveChanges() : 0;
         }
+        public async Task<int> UpdateRange(IEnumerable<T> entities, bool persiste = true)
+        {
+            Table.UpdateRange(entities);
+            return persiste ? await SaveChanges() : 0;
+        }
         public async Task<int> SaveChanges()
         {
             try

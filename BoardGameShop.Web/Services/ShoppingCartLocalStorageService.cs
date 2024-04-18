@@ -64,12 +64,12 @@ namespace BoardGameShop.Web.Services
         }
         public async Task Clear()
         {
-            await localStorage.ClearAsync();
+            await localStorage.RemoveItemAsync(key);
         }
 
         public async void Dispose()
         {
-            await this.Clear();
+
         }
 
 

@@ -60,6 +60,8 @@ namespace BoardGameShop.Api.Extensions
             => mechanics.Select(mechanic => new MechanicDto { MechanicId = mechanic.Id, MechanicName = mechanic.Name });
         public static IEnumerable<PublisherDto> ConvertToDto(this IEnumerable<Publisher> publishers)
             => publishers.Select(publisher => new PublisherDto { Id = publisher.Id, PublisherName = publisher.Name });
+        public static IEnumerable<OrderItem> ConvertToEntity(this IEnumerable<OrderItemDto> orders)
+            => orders.Select(o => new OrderItem { ItemId = o.Id, Qty = o.Qty });
         private static string LoadImageUrl(int itemId)
         {
             try

@@ -11,6 +11,7 @@
         [Required]
         public int Qty { get; set; }
         [Required]
+        [ForeignKey(nameof(OrderId))]
         public Order OrderNavigation { get; set; }
 
     }

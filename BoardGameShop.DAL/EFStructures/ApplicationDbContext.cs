@@ -18,6 +18,8 @@
             new BoardgameConfiguration().Configure(modelBuilder.Entity<Boardgame>());
             new OrderConfiguration().Configure(modelBuilder.Entity<Order>());
             new OrderItemConfiguration().Configure(modelBuilder.Entity<OrderItem>());
+            new VendorConfiguration().Configure(modelBuilder.Entity<Vendor>());
+            new UserConfiguration().Configure(modelBuilder.Entity<User>());
             //new MechanicConfiguration().Configure(modelBuilder.Entity<Mechanic>());
             //new CategoryConfiguration().Configure(modelBuilder.Entity<Category>());
         }

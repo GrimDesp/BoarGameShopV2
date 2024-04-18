@@ -7,7 +7,7 @@
         {
             <LoadingSpinner></LoadingSpinner>
         }
-        else if(InitErrorMessage != null)
+        else if(!string.IsNullOrEmpty(InitErrorMessage))
         {
             <span class="alert-danger">@InitErrorMessage</span>
         }
@@ -15,6 +15,12 @@
         {
         <div class="row m-2 justify-content-center ">
             <div class="col-lg-8 col-sm-10 p-2 border border-end border-2  text-center">
+                @if(!string.IsNullOrEmpty(errorMessage))
+                {
+                    <div class="row-cols-lg-6 alert-danger">
+                        @errorMessage
+                    </div>
+                }
                 @if (user == null)
                 {
                     <LoadingSpinner></LoadingSpinner>
