@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BoardGameShop.Model.Dtos
+﻿namespace BoardGameShop.Model.Dtos
 {
-    public class OrderDto
+    public class CreateOrderDto
     {
         public IEnumerable<OrderItemDto> Items { get; set; }
         public int VendorId { get; set; }
         public UserPersonalInfoDto User { get; set; }
         public string? DeliveryAddress { get; set; }
+        public string? MessageFromUser { get; set; }
     }
     public class OrderItemDto
     {

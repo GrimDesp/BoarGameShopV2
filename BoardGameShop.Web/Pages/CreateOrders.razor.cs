@@ -15,7 +15,7 @@ namespace BoardGameShop.Web.Pages
         public IOrderService? OrderService { get; set; }
 
         public UserPersonalInfoDto? user { get; set; }
-        public List<OrderDto> Orders { get; set; } = new();
+        public List<CreateOrderDto> Orders { get; set; } = new();
         public Dictionary<string, List<CartItem>>? OrdersByName { get; set; }
         public string deliveryAddress { get; set; } = string.Empty;
         private string errorMessage = string.Empty;
@@ -58,7 +58,7 @@ namespace BoardGameShop.Web.Pages
             Orders.Clear();
             foreach (var item in OrdersByName)
             {
-                Orders.Add(new OrderDto
+                Orders.Add(new CreateOrderDto
                 {
                     DeliveryAddress = deliveryAddress,
                     Items = item.Value.ConvertToDto(),

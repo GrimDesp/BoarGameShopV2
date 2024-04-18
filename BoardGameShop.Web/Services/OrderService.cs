@@ -35,7 +35,7 @@ namespace BoardGameShop.Web.Services
             await cartService.RemoveFromCartByVendor(name);
         }
 
-        public async Task SendOrders(IEnumerable<OrderDto> orders)
+        public async Task SendOrders(IEnumerable<CreateOrderDto> orders)
         {
             try
             {
@@ -50,6 +50,23 @@ namespace BoardGameShop.Web.Services
             catch (Exception ex)
             {
 
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task<IEnumerable<OrderDetailsDto>> GetUserOrders()
+        {
+            try
+            {
+                var responce = await httpClient.GetAsync("api/order/userOrders");
+                if (responce.IsSuccessStatusCode)
+                {
+                    return await responce.Content.ReadFromJsonAsync<IEnumerable<OrderDetailsDto>>()
+                        ?? new List<OrderDetailsDto>();
+                }
+                throw new Exception("Щось пішло не так : " + await responce.Content.ReadAsStringAsync());
+            }
+            catch (Exception ex)
+            {
                 throw new Exception(ex.Message);
             }
         }

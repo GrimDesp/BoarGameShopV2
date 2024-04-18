@@ -4,6 +4,7 @@
     {
         Task<Dictionary<string, List<CartItem>>> GetItemsGroupByVendor();
         Task RemoveOrderByVendor(string name);
-        Task SendOrders(IEnumerable<OrderDto> orders);
+        Task SendOrders(IEnumerable<CreateOrderDto> orders);
+        Task<IEnumerable<OrderDetailsDto>> GetUserOrders();
     }
 }

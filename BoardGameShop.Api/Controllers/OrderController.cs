@@ -18,7 +18,7 @@ namespace BoardGameShop.Api.Controllers
         }
         [HttpPost("create")]
         [Authorize]
-        public async Task<IActionResult> CreateOrders(IEnumerable<OrderDto> request)
+        public async Task<IActionResult> CreateOrders(IEnumerable<CreateOrderDto> request)
         {
             try
             {
@@ -86,6 +86,53 @@ namespace BoardGameShop.Api.Controllers
             }
             catch (Exception ex)
             {
+                return BadRequest(ex.Message + ex.InnerException?.Message);
+            }
+        }
+        [HttpGet("userOrders")]
+        [Authorize]
+        public async Task<ActionResult<IEnumerable<OrderDetailsDto>>> GetUserOrders()
+        {
+            try
+            {
+                //TODO винести провірку юзура і получання айді в отдельний клас. Повторюється в CreateOrders()
+                bool isParse = Int32.TryParse(User.FindFirstValue(ClaimTypes.Sid), out int id);
+                if (!isParse)
+                {
+                    return BadRequest("Не вдалось зчитати айді з токена");
+                }
+                string username = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await userRepo.Find(id);
+                if (user.Username != username)
+                {
+                    return Unauthorized("Користувача не знайдено");
+                }
+                var quryableOrder = orderRepo.GetUserOrders(id);
+                var result = await quryableOrder.Select(qo => new OrderDetailsDto
+                {
+                    OrderId = qo.Id,
+                    VendorName = qo.VendorNavigation.Name,
+                    DeliveryAddress = qo.DeliveryAddress,
+                    MessageFromUser = qo.MessageFromUser,
+                    Items = qo.OrderItems.ConvertToDto().ToList(),
+                    User = new UserPersonalInfoDto
+                    {
+                        Firstname = qo.Firstname,
+                        Lastname = qo.Lastname,
+                        PhoneNumber = qo.PhoneNumber,
+                        Secondname = qo.Secondname
+                    },
+                    CompletionDate = qo.CompletionDate,
+                    CreationDate = qo.CreationDate,
+                    OrderStatus = qo.OrderStatus,
+                    PaymentDate = qo.PaymentDate,
+                    PaymentStatus = qo.PaymentStatus
+                }).ToListAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
                 return BadRequest(ex.Message + ex.InnerException?.Message);
             }
         }

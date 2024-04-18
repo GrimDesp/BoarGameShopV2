@@ -2,5 +2,6 @@
 {
     public interface IOrderRepository : IBaseRepo<Order>
     {
+        IQueryable<Order> GetUserOrders(int userId);
     }
 }

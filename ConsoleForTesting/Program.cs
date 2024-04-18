@@ -27,8 +27,8 @@ var orderRepo = new OrderRepository(context);
 var game = await gameRepo.GetById(1);
 Console.WriteLine(game.VendorNavigation.Name);
 Console.WriteLine();
-var orders = new List<OrderDto>();
-orders.Add(new OrderDto
+var orders = new List<CreateOrderDto>();
+orders.Add(new CreateOrderDto
 {
     User = new UserPersonalInfoDto { Firstname = "Sergo" },
     VendorId = 3,
@@ -44,7 +44,7 @@ orders.Add(new OrderDto
 });
 await CreateOrders(orders);
 Console.ReadLine();
-async Task CreateOrders(IEnumerable<OrderDto> request)
+async Task CreateOrders(IEnumerable<CreateOrderDto> request)
 {
     try
     {

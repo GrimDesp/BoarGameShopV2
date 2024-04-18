@@ -1,0 +1,38 @@
+﻿<span class="badge bg-@color">@message</span>
+@code {
+    [Parameter]
+    public OrderStatus OrderStatus { get; set; }
+    private string message = "доставлено";
+    private string color = "danger";
+    protected override Task OnInitializedAsync()
+    {
+        switch (OrderStatus)
+        {
+            case OrderStatus.Created :
+                color = "warning";
+                message = "Розглядається";
+                break;
+            case OrderStatus.Cancel:
+                color = "secondary";
+                message = "Скасовано";
+                break;
+            case OrderStatus.Complete :
+                color = "success";
+                message = "Завершено";
+                break;
+            case OrderStatus.InProcess :
+                color = "info";
+                message = "В процесі";
+                break;
+            case OrderStatus.Delivered:
+                color = "success";
+                message = "Доставлено";
+                break;
+            default:
+                color = "danger";
+                message = "Невідомий статус";
+                break;
+        }
+        return base.OnInitializedAsync();
+    }
+}
