@@ -7,5 +7,6 @@
         Task<(IEnumerable<Boardgame>, int)> GetByFilter(RequestFilterDto filterDto);
         Task<Boardgame> GetById(int id);
         IQueryable<Boardgame> GetByVendor(int vendorId);
+        IQueryable<Boardgame> GetOrderItemsByVendor(int vendorId);
     }
 }

@@ -4,6 +4,7 @@ using BoardGameShop.DAL.EFStructures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BoardGameShop.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240419120205_BgReferenceToOrderItem")]
+    partial class BgReferenceToOrderItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -445,21 +448,6 @@ namespace BoardGameShop.DAL.Migrations
                     b.ToTable("Vendors");
                 });
 
-            modelBuilder.Entity("BoardGameShop.DAL.Entities.VendorEmployee", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VendorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId");
-
-                    b.HasIndex("VendorId");
-
-                    b.ToTable("VendorEmployees");
-                });
-
             modelBuilder.Entity("BoardGameShop.DAL.Entities.Boardgame", b =>
                 {
                     b.HasOne("BoardGameShop.DAL.Entities.Publisher", "PublisherNavigation")
@@ -589,25 +577,6 @@ namespace BoardGameShop.DAL.Migrations
                     b.Navigation("BoardgameNavigation");
 
                     b.Navigation("OrderNavigation");
-                });
-
-            modelBuilder.Entity("BoardGameShop.DAL.Entities.VendorEmployee", b =>
-                {
-                    b.HasOne("BoardGameShop.DAL.Entities.User", "UserNavigation")
-                        .WithOne()
-                        .HasForeignKey("BoardGameShop.DAL.Entities.VendorEmployee", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BoardGameShop.DAL.Entities.Vendor", "VendorNavigation")
-                        .WithMany()
-                        .HasForeignKey("VendorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserNavigation");
-
-                    b.Navigation("VendorNavigation");
                 });
 
             modelBuilder.Entity("BoardGameShop.DAL.Entities.Artist", b =>

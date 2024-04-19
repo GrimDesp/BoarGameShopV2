@@ -1,4 +1,6 @@
-﻿namespace BoardGameShop.DAL.EFStructures
+﻿using Microsoft.Identity.Client;
+
+namespace BoardGameShop.DAL.EFStructures
 {
     public class ApplicationDbContext : DbContext
     {
@@ -13,6 +15,7 @@
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
+        public DbSet<VendorEmployee> VendorEmployees { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             new BoardgameConfiguration().Configure(modelBuilder.Entity<Boardgame>());
@@ -20,6 +23,8 @@
             new OrderItemConfiguration().Configure(modelBuilder.Entity<OrderItem>());
             new VendorConfiguration().Configure(modelBuilder.Entity<Vendor>());
             new UserConfiguration().Configure(modelBuilder.Entity<User>());
+            new OrderItemConfiguration().Configure(modelBuilder.Entity<OrderItem>());
+            new VendorEmployeeConfiguration().Configure(modelBuilder.Entity<VendorEmployee>());
             //new MechanicConfiguration().Configure(modelBuilder.Entity<Mechanic>());
             //new CategoryConfiguration().Configure(modelBuilder.Entity<Category>());
         }

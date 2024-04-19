@@ -14,6 +14,8 @@
         public byte? MaxPlayer { get; set; }
         public int? MinPlayTime { get; set; }
         public int? MaxPlayTime { get; set; }
+        [DefaultValue(false)]
+        public bool IsDeleted { get; set; }
         public AgeEnum? Age { get; set; }
         [Required]
         [Precision(20, 2)]
@@ -49,7 +51,8 @@
         public int VendorId { get; set; }
         [InverseProperty(nameof(Vendor.Boardgames))]
         public Vendor VendorNavigation { get; set; } = new();
-
+        [InverseProperty(nameof(OrderItem.BoardgameNavigation))]
+        public List<OrderItem> OrderItems { get; set; } = new();
 
     }
 }

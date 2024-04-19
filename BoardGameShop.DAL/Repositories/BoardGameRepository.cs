@@ -95,5 +95,9 @@ namespace BoardGameShop.DAL.Repositories
         {
             return Table.Where(g => g.VendorId == vendorId);
         }
+        public IQueryable<Boardgame> GetOrderItemsByVendor(int vendorId)
+        {
+            return GetByVendor(vendorId).Include(g => g.OrderItems).ThenInclude(oi => oi.OrderNavigation).AsQueryable();
+        }
     }
 }

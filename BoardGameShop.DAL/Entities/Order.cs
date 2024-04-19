@@ -23,6 +23,6 @@
         [Required]
         public PaymentStatus PaymentStatus { get; set; }
         [InverseProperty(nameof(OrderItem.OrderNavigation))]
-        public List<OrderItem>? OrderItems { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
     }
 }

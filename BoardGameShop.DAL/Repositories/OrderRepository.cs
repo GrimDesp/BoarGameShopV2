@@ -8,10 +8,14 @@ namespace BoardGameShop.DAL.Repositories
         public OrderRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
         }
+
+
+
         public IQueryable<Order> GetUserOrders(int userId)
         {
             return Table.Where(o => o.UserId == userId)
                 .Include(o => o.VendorNavigation).AsQueryable();
         }
+
     }
 }

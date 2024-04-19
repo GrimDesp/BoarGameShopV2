@@ -10,36 +10,25 @@
                     Home
                 </NavLink>
             </div>
-            <div class="nav-item px-3 p-1 m-1">
-                <NavLink class="nav-link" href="counter">
-                    <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-                </NavLink>
-            </div>
-            <div class="nav-item px-3 p-1 m-1">
-                <NavLink class="nav-link" href="weather">
-                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-                </NavLink>
-            </div>
-            <div class="nav-item px-3 p-1 m-1">
-                <NavLink class="nav-link" href="games">
-                    <span class="bi bi-dice-5 justify-content-center align-content-center"
-                          style="font-size:1.5em" aria-hidden="true"></span> Настільні ігри
-                </NavLink>
-            </div>
-            <div class="nav-item px-3 p-1 m-1">
-                <NavLink class="nav-link" href="cart">
-                    <span class="bi bi-basket3 justify-content-center align-content-center"
-                          style="font-size:1.5em" aria-hidden="true"></span> Кошик
-                </NavLink>
-            </div>
-            <AuthorizeView>
+            <AuthorizeView Roles="@nameof(Role.Vendor)">
                 <Authorized>
                     <div class="nav-item align-content-center px-3 p-1 m-1">
-                        <NavLink class="nav-link" href="orders">
+                        <NavLink class="nav-link" href="vendor/orders">
                             <span class="bi bi-collection justify-content-center align-content-center"
                                   style="font-size:1.5em" aria-hidden="true"></span> Замовлення
                         </NavLink>
                     </div>
+                    <div class="nav-item dropdown px-3 p-1 m-1">
+                        <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Перейти до
+                        </a>
+                        <ul class="dropdown-menu" style=" background-color: #3a0647">
+                            <li><NavLink class="nav-link dropdown-item" href="vendor/boardgames">Настільні ігри</NavLink></li>
+                            <li><NavLink class="nav-link dropdown-item" href="control/mechanics">Механіки</NavLink></li>
+                            <li><NavLink class="nav-link dropdown-item" href="control/categories">Категорії</NavLink></li>
+                        </ul>
+                    </div>
+
                     <div class="nav-item px-3 p-1 m-1">
                         <NavLink class="nav-link" href="account">
                             <span class="bi bi-person justify-content-center align-content-center"
@@ -54,19 +43,66 @@
                     </div>
                 </Authorized>
                 <NotAuthorized>
-
-                    <div class="nav-item px-3 p-1 m-1">
-                        <NavLink class="nav-link" href="login">
-                            <span class="bi bi-door-open justify-content-center align-content-center"
-                                  style="font-size:1.5em" aria-hidden="true"></span> Увійти
-                        </NavLink>
-                    </div>
-                    <div class="nav-item px-3 p-1 m-1">
-                        <NavLink class="nav-link" href="registration">
-                            <span class="bi bi-person-add justify-content-center align-content-center"
-                                  style="font-size:1.5em" aria-hidden="true"></span> Зареєструватись
-                        </NavLink>
-                    </div>
+                    <AuthorizeView Context="innerContext">
+                        <Authorized>
+                            <div class="nav-item px-3 p-1 m-1">
+                                <NavLink class="nav-link" href="games">
+                                    <span class="bi bi-dice-5 justify-content-center align-content-center"
+                                          style="font-size:1.5em" aria-hidden="true"></span> Настільні ігри
+                                </NavLink>
+                            </div>
+                            <div class="nav-item px-3 p-1 m-1">
+                                <NavLink class="nav-link" href="cart">
+                                    <span class="bi bi-basket3 justify-content-center align-content-center"
+                                          style="font-size:1.5em" aria-hidden="true"></span> Кошик
+                                </NavLink>
+                            </div>
+                            <div class="nav-item align-content-center px-3 p-1 m-1">
+                                <NavLink class="nav-link" href="orders">
+                                    <span class="bi bi-collection justify-content-center align-content-center"
+                                          style="font-size:1.5em" aria-hidden="true"></span> Замовлення
+                                </NavLink>
+                            </div>
+                            <div class="nav-item px-3 p-1 m-1">
+                                <NavLink class="nav-link" href="account">
+                                    <span class="bi bi-person justify-content-center align-content-center"
+                                          style="font-size:1.5em" aria-hidden="true"></span> @stateProvider.Username
+                                </NavLink>
+                            </div>
+                            <div class="nav-item px-3 p-1 m-1">
+                                <button type="button" class="btn btn-danger justify-content-center" @onclick="auth.Logout">
+                                    <span class="bi bi-person-dash justify-content-center align-content-center"
+                                          style="font-size:1.5em" aria-hidden="true"></span> Вийти
+                                </button>
+                            </div>
+                        </Authorized>
+                        <NotAuthorized>
+                            <div class="nav-item px-3 p-1 m-1">
+                                <NavLink class="nav-link" href="games">
+                                    <span class="bi bi-dice-5 justify-content-center align-content-center"
+                                          style="font-size:1.5em" aria-hidden="true"></span> Настільні ігри
+                                </NavLink>
+                            </div>
+                            <div class="nav-item px-3 p-1 m-1">
+                                <NavLink class="nav-link" href="cart">
+                                    <span class="bi bi-basket3 justify-content-center align-content-center"
+                                          style="font-size:1.5em" aria-hidden="true"></span> Кошик
+                                </NavLink>
+                            </div>
+                            <div class="nav-item px-3 p-1 m-1">
+                                <NavLink class="nav-link" href="login">
+                                    <span class="bi bi-door-open justify-content-center align-content-center"
+                                          style="font-size:1.5em" aria-hidden="true"></span> Увійти
+                                </NavLink>
+                            </div>
+                            <div class="nav-item px-3 p-1 m-1">
+                                <NavLink class="nav-link" href="registration">
+                                    <span class="bi bi-person-add justify-content-center align-content-center"
+                                          style="font-size:1.5em" aria-hidden="true"></span> Зареєструватись
+                                </NavLink>
+                            </div>
+                        </NotAuthorized>
+                    </AuthorizeView>
                 </NotAuthorized>
             </AuthorizeView>
         </div>
@@ -78,7 +114,6 @@
     [Inject]
     public IAuthService auth { get; set; }
     private bool collapseNavMenu = true;
-
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     private void ToggleNavMenu()

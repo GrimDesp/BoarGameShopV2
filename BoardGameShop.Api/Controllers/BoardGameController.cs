@@ -1,26 +1,22 @@
-﻿namespace BoardGameShop.Api.Controllers
+﻿using BoardGameShop.Model.Dtos.VendorControl;
+using Microsoft.AspNetCore.Authorization;
+
+namespace BoardGameShop.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class BoardGameController : ControllerBase
     {
         private readonly IBoardGameRepository gameRepository;
+        private readonly IOrderRepository orderRepo;
+        private readonly IVendorEmployeeRepository vendorEmpRepo;
 
-        public BoardGameController(IBoardGameRepository gameRepository)
+        public BoardGameController(IBoardGameRepository gameRepository,
+            IOrderRepository orderRepo, IVendorEmployeeRepository vendorEmpRepo)
         {
             this.gameRepository = gameRepository;
-        }
-        // GET: api/<BoardGameController>
-        [Produces("application/json")]
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            var games = await gameRepository.GetAll();
-            if (games == null)
-            {
-                return NotFound();
-            }
-            return Ok(games.ConvertToDto());
+            this.orderRepo = orderRepo;
+            this.vendorEmpRepo = vendorEmpRepo;
         }
         [Produces("application/json")]
         [HttpPost("Filter")]
@@ -43,6 +39,36 @@
             if (game == null)
                 return NotFound();
             return Ok(game.ConvertToDto());
+        }
+        [HttpGet("vendor/games"), Authorize(Roles = nameof(Role.Vendor))]
+        [Produces("application/json")]
+        public async Task<IActionResult> FindGamesByVendor()
+        {
+            bool isConvert = int.TryParse(User.FindFirstValue(ClaimTypes.Sid), out int userId);
+            if (!isConvert)
+            {
+                return Unauthorized("Не вдалось отримати id користувача");
+            }
+            try
+            {
+                int id = await vendorEmpRepo.GetVendorId(userId);
+                var querybleOrder = gameRepository.GetOrderItemsByVendor(id).Select(g => new BoardgameStatDto
+                {
+                    Name = g.Name,
+                    Discount = g.Discount,
+                    FullPrice = g.FullPrice,
+                    Id = g.Id,
+                    IsDeleted = g.IsDeleted,
+                    Quantity = g.Quantity,
+                    ItemSold = g.OrderItems.Where(oi => oi.OrderNavigation.CompletionDate != null).Sum(oi => oi.Qty),
+                    Earned = g.OrderItems.Where(oi => oi.OrderNavigation.CompletionDate != null).Sum(oi => oi.ItemCost)
+                });
+                return Ok(await querybleOrder.ToListAsync());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Помилка : " + ex.Message + ex.InnerException?.Message);
+            }
         }
     }
 }

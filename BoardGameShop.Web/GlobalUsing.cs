@@ -1,5 +1,6 @@
 ﻿global using Blazored.LocalStorage;
 global using BoardGameShop.Model.Dtos;
+global using BoardGameShop.Model.Dtos.VendorControl;
 global using BoardGameShop.Model.Enums;
 global using BoardGameShop.Web;
 global using BoardGameShop.Web.Services;

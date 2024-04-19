@@ -1,5 +1,6 @@
 ﻿namespace BoardGameShop.DAL.Entities
 {
+    [EntityTypeConfiguration(typeof(OrderItemConfiguration))]
     public class OrderItem
     {
         [Required]
@@ -13,6 +14,8 @@
         [Required]
         [ForeignKey(nameof(OrderId))]
         public Order OrderNavigation { get; set; }
+        [ForeignKey(nameof(ItemId))]
+        public Boardgame BoardgameNavigation { get; set; }
 
     }
 }

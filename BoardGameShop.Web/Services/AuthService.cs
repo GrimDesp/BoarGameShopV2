@@ -9,11 +9,15 @@ namespace BoardGameShop.Web.Services
         private readonly HttpClient httpClient;
         private readonly ILocalStorageService localStorage;
         private readonly CustomAuthStateProvider authState;
-        public AuthService(HttpClient client, ILocalStorageService localStorage, CustomAuthStateProvider authState)
+        private readonly NavigationManager navManager;
+
+        public AuthService(HttpClient client, ILocalStorageService localStorage,
+            CustomAuthStateProvider authState, NavigationManager navManager)
         {
             httpClient = client;
             this.localStorage = localStorage;
             this.authState = authState;
+            this.navManager = navManager;
         }
 
         public async Task Registration(UserRegistrationDto userRegistrationDto)
@@ -59,6 +63,7 @@ namespace BoardGameShop.Web.Services
         {
             await localStorage.RemoveItemAsync("token");
             await authState.GetAuthenticationStateAsync();
+            navManager.NavigateTo("");
         }
 
         public async Task<UserPersonalInfoDto> GetUserData()

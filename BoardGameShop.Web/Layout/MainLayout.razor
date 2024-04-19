@@ -1,9 +1,8 @@
 ﻿@inherits LayoutComponentBase
-@implements IDisposable
-@inject IShoppingCartLocalStorageService cartStorageService
+@inject CustomAuthStateProvider authProvider
 <div class="">
     <div class="">
-        <NavMenu />
+        <NavMenu/>
     </div>
 
     <main>
@@ -13,8 +12,5 @@
     </main>
 </div>
 @code{
-    async void IDisposable.Dispose()
-    {
-        await cartStorageService.Clear();
-    }
+
 }
