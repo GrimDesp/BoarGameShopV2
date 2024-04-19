@@ -3,5 +3,6 @@
     public interface IVendorService
     {
         Task<List<BoardgameStatDto>> GetBoardgames();
+        Task SaveDeletionChanges(List<BoardgameDeleteChangeDto> boardgames);
     }
 }

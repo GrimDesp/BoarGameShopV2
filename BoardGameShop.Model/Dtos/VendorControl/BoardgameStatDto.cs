@@ -3,8 +3,10 @@
     public class BoardgameStatDto
     {
         public int Id { get; set; }
+        public required byte[] TimeStamp { get; set; }
         public int Quantity { get; set; }
         public required string Name { get; set; }
+        public required string PublisherName { get; set; }
         public decimal FullPrice { get; set; }
         public byte? Discount { get; set; }
         public int ItemSold { get; set; }

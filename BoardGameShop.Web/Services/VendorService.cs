@@ -25,5 +25,25 @@
                 throw new Exception("Помилка від сервера : " + ex.Message);
             }
         }
+        public async Task SaveDeletionChanges(List<BoardgameDeleteChangeDto> boardgames)
+        {
+            try
+            {
+                var responce = await httpClient.PostAsJsonAsync("api/BoardGame/vendor/deletionUpdate", boardgames);
+                if (responce.IsSuccessStatusCode)
+                {
+                    return;
+                }
+                if (responce.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new Exception("Помилка авторизації : " + await responce.Content.ReadAsStringAsync());
+                }
+                throw new Exception(await responce.Content.ReadAsStringAsync());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Помилка від сервера : " + ex.Message);
+            }
+        }
     }
 }

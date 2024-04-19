@@ -3,7 +3,7 @@
 @attribute [Authorize(Roles = nameof(Role.Vendor))]
 
 <PageTitle>Настільні ігри</PageTitle>
-<div class="containerp-lg-2 border border-secondary border-2 justify-content-center text-center" style="font-size:1.1em; font-family:'Franklin Gothic Medium'">
+<div class="containerp-lg-2 border-2 border border-end justify-content-center text-center" style="font-size:1.1em; font-family:'Franklin Gothic Medium'">
     @if (InitErrorMessage == null && BoardgamesInfo == null)
     {
         <LoadingSpinner></LoadingSpinner>
@@ -16,13 +16,100 @@
     }
     else
     {
-        @foreach (var game in BoardgamesInfo)
-        {
-            <div class="row m-1 justify-content-center border-2 border border-end">
-                <div class="col-10 justify-content-center">
-                    @game.Name
-                </div>
+        <div class="row m-1 justify-content-center">
+            <div class="col-10 m-2 justify-content-center border-2 border border-end">
+                @if(string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <div class="row-cols-lg-6 alert-danger">
+                        @ErrorMessage
+                    </div>
+                }
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Ім'я</th>
+                            <th scope="col">Виробник</th>
+                            <th scope="col">На складі</th>
+                            <th scope="col">Ціна</th>
+                            <th scope="col">Скидка</th>
+                            <th scope="col">Продано</th>
+                            <th scope="col">Зароблено</th>
+                            <th scope="col">Статус</th>
+                            <th scope="col"></th>
+                            <th scope="col">Змінені</th>   
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var game in BoardgamesInfo)
+                    {
+                            string status = game.IsDeleted ? "Знято з продажу" : "В продажі";
+                            <tr>
+                                <th scope="row" class="p-2 align-content-center">@game.Id</th>
+                                <th ><a class="nav-link link-dark p-2 align-content-center" href="/game/@game.Id">@game.Name</a></th>
+                                <th class="p-2 align-content-center">@game.PublisherName</th>
+                                <th class="p-2 align-content-center">@game.Quantity</th>
+                                <th class="p-2 align-content-center">@game.FullPrice</th>
+                                <th class="p-2 align-content-center">@game.Discount</th>
+                                <th class="p-2 align-content-center">@game.ItemSold</th>
+                                <th class="p-2 align-content-center">@game.Earned</th>
+                                <th class="p-2 align-content-center">
+                                    @status
+                                </th>
+                                <th class="p-2 align-content-center">
+                                    @if(game.IsDeleted)
+                                    {
+                                        <button class="@requestStatusStyle bi bi-eye btn btn-primary" @onclick="() => DeletionChange_OnClick(game.Id)" type="button"></button>
+                                    }
+                                    else
+                                    {
+                                        <button class="@requestStatusStyle bi bi-eye-slash btn btn-danger " @onclick="() => DeletionChange_OnClick(game.Id)" type="button"></button>
+                                    }
+                                    <button class="@requestStatusStyle mx-1 bi bi-pencil btn btn-primary"></button>
+                                </th>
+                                <th class="p-2 align-content-center">
+                                    @if (ChangingDict[game.Id] == true)
+                                    {
+                                        <span class="@requestStatusStyle bi bi-circle-fill text-success"></span>
+                                    }
+                                </th>
+
+                        </tr>
+                    }
+                    </tbody>
+                    
+                    <tfoot>
+                        <tr>
+                            
+                            <th scope="row" class="text-end" colspan="3">Всього на складі : </th>
+                            <th class="p-2 align-content-center">@BoardgamesInfo.Sum(b => b.Quantity)</th>
+                            <th></th>
+                            <th class="p-2 align-content-center">Виручка : </th>
+                            <th>@BoardgamesInfo.Sum(b => b.ItemSold)</th>
+                            <th>@BoardgamesInfo.Sum(b => b.Earned)</th>
+                            @if(ChangingDict.Any(e => e.Value == true))
+                            {
+                                <th></th>
+                                <th class="p-2 align-content-center">
+                                    <button class="bi bi-check-lg btn btn-success @requestStatusStyle" @onclick="SaveChanges_OnClick">
+                                        Зберегти</button>
+                                    </th>
+                            }
+                            else
+                            {
+                                <th></th>
+                                <th class="p-2 align-content-center"><button class="bi bi-check-lg btn btn-success disabled">Зберегти</button></th>
+                            }
+                            <th class="p-2 align-content-center justify-content-center text-center">
+                                @if(!string.IsNullOrEmpty(requestStatusStyle))
+                                {
+                                    <LoadingSpinner/>
+                                }
+                            </th>
+                        </tr>
+                    </tfoot>
+                </table>
             </div>
-        }
+        </div>
     }
 </div>
