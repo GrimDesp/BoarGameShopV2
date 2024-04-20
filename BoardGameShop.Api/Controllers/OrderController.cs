@@ -17,7 +17,7 @@ namespace BoardGameShop.Api.Controllers
             this.userRepo = userRepo;
         }
         [HttpPost("create")]
-        [Authorize]
+        [Authorize(Roles = nameof(Role.User))]
         public async Task<IActionResult> CreateOrders(IEnumerable<CreateOrderDto> request)
         {
             try

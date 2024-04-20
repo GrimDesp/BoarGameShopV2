@@ -47,12 +47,12 @@
         public int PublisherId { get; set; }
         [Required, ForeignKey(nameof(PublisherId))]
         [InverseProperty(nameof(Publisher.BoardGames))]
-        public Publisher PublisherNavigation { get; set; } = new();
+        public Publisher PublisherNavigation { get; set; }
         public int VendorId { get; set; }
         [InverseProperty(nameof(Vendor.Boardgames))]
-        public Vendor VendorNavigation { get; set; } = new();
+        public Vendor VendorNavigation { get; set; }
         [InverseProperty(nameof(OrderItem.BoardgameNavigation))]
-        public List<OrderItem> OrderItems { get; set; } = new();
+        public List<OrderItem>? OrderItems { get; set; }
 
     }
 }

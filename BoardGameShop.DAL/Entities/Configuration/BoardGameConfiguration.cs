@@ -13,7 +13,7 @@
 
             builder.HasOne(x => x.VendorNavigation)
                 .WithMany(y => y.Boardgames)
-                .HasForeignKey(x => x.VendorId);
+                .HasForeignKey(x => x.VendorId).IsRequired();
 
             builder.HasMany(x => x.Mechanics)
                 .WithMany(y => y.Boardgames)

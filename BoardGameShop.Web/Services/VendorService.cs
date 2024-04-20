@@ -12,7 +12,7 @@
         {
             try
             {
-                var responce = await httpClient.GetAsync("api/BoardGame/vendor/games");
+                var responce = await httpClient.GetAsync("api/Vendor/games");
                 if (responce.IsSuccessStatusCode)
                 {
                     return await responce.Content.ReadFromJsonAsync<List<BoardgameStatDto>>()
@@ -29,7 +29,7 @@
         {
             try
             {
-                var responce = await httpClient.PostAsJsonAsync("api/BoardGame/vendor/deletionUpdate", boardgames);
+                var responce = await httpClient.PostAsJsonAsync("api/Vendor/deletionGameUpdate", boardgames);
                 if (responce.IsSuccessStatusCode)
                 {
                     return;
@@ -37,6 +37,22 @@
                 if (responce.StatusCode == HttpStatusCode.Unauthorized)
                 {
                     throw new Exception("Помилка авторизації : " + await responce.Content.ReadAsStringAsync());
+                }
+                throw new Exception(await responce.Content.ReadAsStringAsync());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Помилка від сервера : " + ex.Message);
+            }
+        }
+        public async Task<BoardgameActionDto> GetBoardgameDetail(int gameId)
+        {
+            try
+            {
+                var responce = await httpClient.GetAsync($"api/Vendor/games/{gameId}");
+                if (responce.IsSuccessStatusCode)
+                {
+                    return await responce.Content.ReadFromJsonAsync<BoardgameActionDto>();
                 }
                 throw new Exception(await responce.Content.ReadAsStringAsync());
             }

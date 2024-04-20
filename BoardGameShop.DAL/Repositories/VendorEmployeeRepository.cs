@@ -18,7 +18,7 @@
                     UserNavigation = new User { Id = e.UserNavigation.Id, UserRole = e.UserNavigation.UserRole },
                 }).SingleAsync();
             return employee.UserNavigation.UserRole == Role.Vendor ? employee.VendorNavigation.Id
-                 : throw new Exception("Такого робочого немає");
+                 : throw new UnauthorizedAccessException("Такого робочого немає");
         }
 
         private bool disposedValue;

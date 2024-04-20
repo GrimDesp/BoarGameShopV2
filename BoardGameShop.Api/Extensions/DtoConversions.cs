@@ -103,5 +103,26 @@ namespace BoardGameShop.Api.Extensions
         }
         private static decimal CalculatePrice(decimal fullPrice, byte discount)
             => fullPrice * (1 - (discount / (decimal)100));
+        public static BoardgameActionDto ConvertToActionDto(this Boardgame boardgame)
+            => new BoardgameActionDto
+            {
+                Name = boardgame.Name,
+                Id = boardgame.Id,
+                Age = boardgame.Age,
+                Description = boardgame.Description,
+                Discount = boardgame.Discount,
+                FullPrice = boardgame.FullPrice,
+                IsDeleted = boardgame.IsDeleted,
+                MaxPlayer = boardgame.MaxPlayer,
+                MaxPlayTime = boardgame.MaxPlayTime,
+                MinPlayer = boardgame.MinPlayer,
+                MinPlayTime = boardgame.MinPlayTime,
+                Quantity = boardgame.Quantity,
+                Artists = boardgame.Artists.Select(a => new BoardgameActionArtistDto { Name = a.FullName, Id = a.Id }).ToList(),
+                Authors = boardgame.Authors.Select(a => new BoardgameActionAuthorDto { Name = a.FullName, Id = a.Id }).ToList(),
+                Categories = boardgame.Categories.Select(c => new BoardgameActionCategoryDto { Name = c.Name, Id = c.Id }).ToList(),
+                Mechanics = boardgame.Mechanics.Select(m => new BoardgameActionMechanicDto { Name = m.Name, Id = m.Id }).ToList(),
+                Publisher = new BoardgameActionPublisherDto { Name = boardgame.PublisherNavigation.Name, Id = boardgame.PublisherNavigation.Id }
+            };
     }
 }

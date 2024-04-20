@@ -6,6 +6,10 @@ namespace BoardGameShop.DAL.EFStructures
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         public DbSet<Boardgame> BoardGames { get; set; }
+        public DbSet<BoardgameToCategory> BoardgameToCategory { get; set; }
+        public DbSet<BoardgameToMechanic> BoardgameToMechanic { get; set; }
+        public DbSet<BoardgameToArtist> BoardgameToArtist { get; set; }
+        public DbSet<BoardgameToAuthor> BoardgameToAuthor { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Author> Authors { get; set; }
         public DbSet<Artist> Artists { get; set; }

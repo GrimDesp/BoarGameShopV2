@@ -65,7 +65,7 @@
                                     {
                                         <button class="@requestStatusStyle bi bi-eye-slash btn btn-danger " @onclick="() => DeletionChange_OnClick(game.Id)" type="button"></button>
                                     }
-                                    <button class="@requestStatusStyle mx-1 bi bi-pencil btn btn-primary"></button>
+                                    <a href="/vendor/boardgames/edit/@game.Id" class="@requestStatusStyle mx-1 bi bi-pencil btn btn-primary"></a>
                                 </th>
                                 <th class="p-2 align-content-center">
                                     @if (ChangingDict[game.Id] == true)

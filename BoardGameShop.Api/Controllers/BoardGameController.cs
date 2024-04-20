@@ -6,15 +6,10 @@ namespace BoardGameShop.Api.Controllers
     public class BoardGameController : ControllerBase
     {
         private readonly IBoardGameRepository gameRepository;
-        private readonly IOrderRepository orderRepo;
-        private readonly IVendorEmployeeRepository vendorEmpRepo;
 
-        public BoardGameController(IBoardGameRepository gameRepository,
-            IOrderRepository orderRepo, IVendorEmployeeRepository vendorEmpRepo)
+        public BoardGameController(IBoardGameRepository gameRepository)
         {
             this.gameRepository = gameRepository;
-            this.orderRepo = orderRepo;
-            this.vendorEmpRepo = vendorEmpRepo;
         }
         [Produces("application/json")]
         [HttpPost("Filter")]
@@ -38,64 +33,6 @@ namespace BoardGameShop.Api.Controllers
                 return NotFound();
             return Ok(game.ConvertToDto());
         }
-        [HttpGet("vendor/games"), Authorize(Roles = nameof(Role.Vendor))]
-        [Produces("application/json")]
-        public async Task<IActionResult> FindGamesByVendor()
-        {
-            bool isConvert = int.TryParse(User.FindFirstValue(ClaimTypes.Sid), out int userId);
-            if (!isConvert)
-            {
-                return Unauthorized("Не вдалось отримати id користувача");
-            }
-            try
-            {
-                int id = await vendorEmpRepo.GetVendorId(userId);
-                var querybleOrder = gameRepository.GetOrderItemsByVendor(id).Include(g => g.PublisherNavigation)
-                    .Select(g => new BoardgameStatDto
-                    {
-                        Id = g.Id,
-                        Name = g.Name,
-                        TimeStamp = g.TimeSpam,
-                        PublisherName = g.PublisherNavigation.Name,
-                        Discount = g.Discount,
-                        FullPrice = g.FullPrice,
-                        IsDeleted = g.IsDeleted,
-                        Quantity = g.Quantity,
-                        ItemSold = g.OrderItems.Where(oi => oi.OrderNavigation.CompletionDate != null).Sum(oi => oi.Qty),
-                        Earned = g.OrderItems.Where(oi => oi.OrderNavigation.CompletionDate != null).Sum(oi => oi.ItemCost)
-                    });
-                return Ok(await querybleOrder.ToListAsync());
-            }
-            catch (Exception ex)
-            {
-                return BadRequest("Помилка : " + ex.Message + ex.InnerException?.Message);
-            }
-        }
 
-        [HttpPost("vendor/deletionUpdate"), Authorize(Roles = nameof(Role.Vendor))]
-        [Produces("application/json")]
-        public async Task<IActionResult> DeletionChangesFromVendor(List<BoardgameDeleteChangeDto> request)
-        {
-            bool isConvert = int.TryParse(User.FindFirstValue(ClaimTypes.Sid), out int userId);
-            if (!isConvert)
-            {
-                return Unauthorized("Не вдалось отримати id користувача");
-            }
-            try
-            {
-                int id = await vendorEmpRepo.GetVendorId(userId);
-                var games = await gameRepository.GetByVendor(id)
-                    .Where(g => request.Select(r => r.Id).Contains(g.Id))
-                    .ToListAsync();
-                games.ForEach(game => game.IsDeleted = request.Where(r => r.Id == game.Id).Single().IsDeleted);
-                await gameRepository.UpdateRange(games);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message + ex.InnerException?.Message);
-                throw;
-            }
-        }
     }
 }
