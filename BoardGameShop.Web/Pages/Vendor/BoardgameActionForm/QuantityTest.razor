@@ -1,0 +1,10 @@
+﻿<input class="form-text @disabledStyle " type="number"
+       @onblur="()=>eventCallback.InvokeAsync(Quantity)" @bind="@Quantity" />
+@code {
+    [Parameter]
+    public required string disabledStyle{ get; set; }
+    [Parameter]
+    public int Quantity { get; set; }
+    [Parameter]
+    public EventCallback<int> eventCallback { get; set; }
+}

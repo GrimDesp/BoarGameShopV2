@@ -2,6 +2,7 @@
 {
     public enum AgeEnum : byte
     {
+        None = 0,
         Age3 = 3,
         Age4 = 4,
         Age5 = 5,
@@ -16,6 +17,7 @@
         Age14 = 14,
         Age15 = 15,
         Age16 = 16,
-        age18 = 18
+        Age17 = 17,
+        Age18 = 18
     }
 }

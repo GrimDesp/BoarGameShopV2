@@ -3,10 +3,10 @@
     public class BoardgameToArtist
     {
         public int BoardgameId { get; set; }
-        [ForeignKey(nameof(BoardgameId))]
-        public Boardgame BoardgameNavigation { get; set; } = new();
+        [ForeignKey(nameof(BoardgameId)), Required]
+        public Boardgame? BoardgameNavigation { get; set; }
         public int ArtistId { get; set; }
-        [ForeignKey(nameof(ArtistId))]
-        public Artist ArtistNavigation { get; set; } = new();
+        [ForeignKey(nameof(ArtistId)), Required]
+        public Artist? ArtistNavigation { get; set; }
     }
 }

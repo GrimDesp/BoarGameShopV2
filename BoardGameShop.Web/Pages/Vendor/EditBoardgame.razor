@@ -2,9 +2,9 @@
 @layout MainLayout
 @attribute [Authorize(Roles = nameof(Role.Vendor))]
 
-<PageTitle>Настільні ігри</PageTitle>
+<PageTitle>Загрузка...</PageTitle>
 <div class="containerp-lg-2 border-2 border border-end justify-content-center text-center" style="font-size:1.1em; font-family:'Franklin Gothic Medium'">
-    @if (!string.IsNullOrEmpty(InitErrorMessage) && Boardgame == null)
+    @if (!string.IsNullOrEmpty(InitErrorMessage) || Boardgame == null || EntitiesData == null)
     {
         <LoadingSpinner></LoadingSpinner>
     }
@@ -16,6 +16,14 @@
     }
     else
     {
-        <BoardgameActionForm Boardgame="@Boardgame" ErrorMessage="@ErrorMessage"></BoardgameActionForm>
+        <PageTitle>@Boardgame.Name</PageTitle>
+        @if(!string.IsNullOrEmpty(SuccessMessage))
+        {
+            <div class="row-cols-auto alert-success justify-content-center text-center">
+                @SuccessMessage
+            </div>
+        }
+        <BoardgameActionForm ActionSuccess="updateSuccess" SendToAction="UpdateBoardgame" 
+            EntitiesInfo="@EntitiesData" Boardgame="@Boardgame" ErrorMessage="@ErrorMessage"/>
     }
 </div>

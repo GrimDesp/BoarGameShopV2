@@ -24,7 +24,7 @@ namespace BoardGameShop.Api.Controllers
         }
         [HttpGet("GetData")]
         [Produces("application/json")]
-        public async Task<IActionResult> GetAllFilterData()
+        public async Task<ActionResult<StatsForFilterDto>> GetAllFilterData()
         {
             var artists = await artistsRepo.GetAll();
             var authors = await authorsRepo.GetAll();
@@ -33,11 +33,11 @@ namespace BoardGameShop.Api.Controllers
             var publishers = await publishersRepo.GetAll();
             var filtersData = new StatsForFilterDto
             {
-                ArtistDtos = artists.ConvertToDto(),
-                AuthorDtos = authors.ConvertToDto(),
-                CategoryDtos = categories.ConvertToDto(),
+                ArtistDtos = artists.ConvertToDto().ToList(),
+                AuthorDtos = authors.ConvertToDto().ToList(),
+                CategoryDtos = categories.ConvertToDto().ToList(),
                 MechanicDtos = mechanics.ConvertToDto().ToList(),
-                PublisherDtos = publishers.ConvertToDto()
+                PublisherDtos = publishers.ConvertToDto().ToList()
             };
             return Ok(filtersData);
         }

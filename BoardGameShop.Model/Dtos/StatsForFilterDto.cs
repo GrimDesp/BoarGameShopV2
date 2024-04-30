@@ -3,29 +3,34 @@
     public class StatsForFilterDto
     {
         public List<MechanicDto> MechanicDtos { get; set; } = new();
-        public IEnumerable<CategoryDto> CategoryDtos { get; set; } = Enumerable.Empty<CategoryDto>();
-        public IEnumerable<PersonDto> AuthorDtos { get; set; } = Enumerable.Empty<PersonDto>();
-        public IEnumerable<PersonDto> ArtistDtos { get; set; } = Enumerable.Empty<PersonDto>();
-        public IEnumerable<PublisherDto> PublisherDtos { get; set; } = Enumerable.Empty<PublisherDto>();
+        public List<CategoryDto> CategoryDtos { get; set; } = new();
+        public List<AuthorDto> AuthorDtos { get; set; } = new();
+        public List<ArtistDto> ArtistDtos { get; set; } = new();
+        public List<PublisherDto> PublisherDtos { get; set; } = new();
     }
     public class MechanicDto
-    {
-        public int MechanicId { get; set; }
-        public string MechanicName { get; set; } = string.Empty;
-    }
-    public class CategoryDto
-    {
-        public int Id { get; set; }
-        public string CategoryName { get; set; } = string.Empty;
-    }
-    public class PersonDto
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
     }
+    public class CategoryDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+    }
+    public abstract class PersonDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+    }
+    public class AuthorDto : PersonDto
+    {
+
+    }
+    public class ArtistDto : PersonDto { }
     public class PublisherDto
     {
         public int Id { get; set; }
-        public string PublisherName { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
     }
 }

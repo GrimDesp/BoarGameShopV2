@@ -24,7 +24,7 @@ namespace BoardGameShop.Api.Controllers
         {
             try
             {
-                int userId = int.Parse(User.FindFirstValue(ClaimTypes.Sid));
+                int userId = int.Parse(User.FindFirstValue(ClaimTypes.Sid) ?? "");
                 int id = await vendorEmpRepo.GetVendorId(userId);
                 var querybleOrder = gameRepo.GetOrderItemsByVendor(id).Include(g => g.PublisherNavigation)
                     .Select(g => new BoardgameStatDto
@@ -56,13 +56,13 @@ namespace BoardGameShop.Api.Controllers
             }
         }
 
-        [HttpPost("deletionGameUpdate")]
+        [HttpPut("deletionGameUpdate")]
         [Produces("application/json")]
         public async Task<IActionResult> DeletionChangesFromVendor(List<BoardgameDeleteChangeDto> request)
         {
             try
             {
-                int userId = int.Parse(User.FindFirstValue(ClaimTypes.Sid));
+                int userId = int.Parse(User.FindFirstValue(ClaimTypes.Sid) ?? "");
                 int id = await vendorEmpRepo.GetVendorId(userId);
                 var games = await gameRepo.GetByVendor(id)
                     .Where(g => request.Select(r => r.Id).Contains(g.Id))
@@ -90,7 +90,7 @@ namespace BoardGameShop.Api.Controllers
         {
             try
             {
-                int userId = int.Parse(User.FindFirstValue(ClaimTypes.Sid));
+                int userId = int.Parse(User.FindFirstValue(ClaimTypes.Sid) ?? "");
                 int vendorId = await vendorEmpRepo.GetVendorId(userId);
                 var game = await gameRepo.GetByVendor(vendorId)
                     .Include(g => g.Categories)
@@ -134,7 +134,58 @@ namespace BoardGameShop.Api.Controllers
             {
                 return BadRequest("Помилка : " + ex.Message + ex.InnerException?.Message);
             }
-            throw new NotImplementedException();
+        }
+        [HttpPut("boardgame")]
+        public async Task<ActionResult<byte[]>> UpdateBoardgameFromActionForm(BoardgameActionDto request)
+        {
+            try
+            {
+                int userId = int.Parse(User.FindFirstValue(ClaimTypes.Sid) ?? "");
+                int vendorId = await vendorEmpRepo.GetVendorId(userId);
+                var game = await gameRepo.GetByVendor(vendorId)
+                    .Include(g => g.BoardgameArtists)
+                    .Include(g => g.BoardgameAuthors)
+                    .Include(g => g.BoardgameCategories)
+                    .Include(g => g.BoardgameMechanics)
+                    .SingleOrDefaultAsync(g => g.Id == request.Id && g.TimeSpam == request.TimeStamp);
+                if (game == null)
+                {
+                    return NotFound("Не знайдено гру");
+                }
+                var requestgame = request.ConvertToEntity();
+                game.Name = requestgame.Name;
+                game.TimeSpam = requestgame.TimeSpam;
+                game.FullPrice = requestgame.FullPrice;
+                game.Discount = requestgame.Discount;
+                game.Quantity = requestgame.Quantity;
+                game.Age = requestgame.Age;
+                game.Description = requestgame.Description;
+                game.IsDeleted = requestgame.IsDeleted;
+                game.MaxPlayer = requestgame.MaxPlayer;
+                game.MinPlayer = requestgame.MinPlayer;
+                game.MaxPlayTime = requestgame.MaxPlayTime;
+                game.MinPlayTime = requestgame.MinPlayTime;
+                game.PublisherId = requestgame.PublisherId;
+                game.BoardgameMechanics = requestgame.BoardgameMechanics;
+                game.BoardgameCategories = requestgame.BoardgameCategories;
+                game.BoardgameArtists = requestgame.BoardgameArtists;
+                game.BoardgameAuthors = requestgame.BoardgameAuthors;
+                game.VendorId = vendorId;
+                await gameRepo.Update(game);
+                return Ok(game.TimeSpam);
+            }
+            catch (InvalidCastException ex)
+            {
+                return Unauthorized("Неможливо отримати ідентифікатор користувача : " + ex.Message);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized("Недостатньо прав в користувача : " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Помилка : " + ex.Message + ex.InnerException?.Message);
+            }
         }
     }
 }

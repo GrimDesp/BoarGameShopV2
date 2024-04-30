@@ -9,10 +9,10 @@ namespace BoardGameShop.DAL.Entities
     public class BoardgameToAuthor
     {
         public int BoardgameId { get; set; }
-        [ForeignKey(nameof(BoardgameId))]
-        public Boardgame BoardgameNavigation { get; set; } = new();
+        [ForeignKey(nameof(BoardgameId)), Required]
+        public Boardgame? BoardgameNavigation { get; set; }
         public int AuthorId { get; set; }
-        [ForeignKey(nameof(AuthorId))]
-        public Author AuthorNavigation { get; set; } = new();
+        [ForeignKey(nameof(AuthorId)), Required]
+        public Author? AuthorNavigation { get; set; }
     }
 }

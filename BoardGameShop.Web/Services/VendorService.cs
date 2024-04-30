@@ -29,7 +29,7 @@
         {
             try
             {
-                var responce = await httpClient.PostAsJsonAsync("api/Vendor/deletionGameUpdate", boardgames);
+                var responce = await httpClient.PutAsJsonAsync("api/Vendor/deletionGameUpdate", boardgames);
                 if (responce.IsSuccessStatusCode)
                 {
                     return;
@@ -59,6 +59,27 @@
             catch (Exception ex)
             {
                 throw new Exception("Помилка від сервера : " + ex.Message);
+            }
+        }
+        public async Task<byte[]> UpdateBoardgame(BoardgameActionDto boardgame)
+        {
+            try
+            {
+                var responce = await httpClient.PutAsJsonAsync("api/Vendor/boardgame", boardgame);
+                if (responce.IsSuccessStatusCode)
+                {
+                    return await responce.Content.ReadFromJsonAsync<byte[]>()
+                        ?? throw new Exception("Не вдалось отримати мітку часу від серверу, перезагрузіть сторінку");
+                }
+                if (responce.StatusCode == HttpStatusCode.Unauthorized)
+                {
+                    throw new Exception("Помилка авторизації : " + await responce.Content.ReadAsStringAsync());
+                }
+                throw new Exception(await responce.Content.ReadAsStringAsync());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

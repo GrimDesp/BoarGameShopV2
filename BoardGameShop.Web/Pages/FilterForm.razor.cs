@@ -1,6 +1,4 @@
 ﻿
-using System.ComponentModel;
-
 namespace BoardGameShop.Web.Pages
 {
     public partial class FilterForm : ComponentBase
@@ -90,7 +88,7 @@ namespace BoardGameShop.Web.Pages
         {
             foreach (var item in FilterData.MechanicDtos)
             {
-                MechanicIdsFilter.Add(item.MechanicId, false);
+                MechanicIdsFilter.Add(item.Id, false);
             }
             foreach (var item in FilterData.CategoryDtos)
             {

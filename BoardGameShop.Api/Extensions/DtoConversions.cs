@@ -50,16 +50,16 @@ namespace BoardGameShop.Api.Extensions
                 ImageUrls = LoadImageUrls(game.Id).ToList()
             };
         }
-        public static IEnumerable<PersonDto> ConvertToDto(this IEnumerable<Artist> artists)
-            => artists.Select(artist => new PersonDto { Id = artist.Id, Name = artist.FullName });
-        public static IEnumerable<PersonDto> ConvertToDto(this IEnumerable<Author> authors)
-            => authors.Select(author => new PersonDto { Id = author.Id, Name = author.FullName });
+        public static IEnumerable<ArtistDto> ConvertToDto(this IEnumerable<Artist> artists)
+            => artists.Select(artist => new ArtistDto { Id = artist.Id, Name = artist.FullName });
+        public static IEnumerable<AuthorDto> ConvertToDto(this IEnumerable<Author> authors)
+            => authors.Select(author => new AuthorDto { Id = author.Id, Name = author.FullName });
         public static IEnumerable<CategoryDto> ConvertToDto(this IEnumerable<Category> categories)
-            => categories.Select(category => new CategoryDto { Id = category.Id, CategoryName = category.Name });
+            => categories.Select(category => new CategoryDto { Id = category.Id, Name = category.Name });
         public static IEnumerable<MechanicDto> ConvertToDto(this IEnumerable<Mechanic> mechanics)
-            => mechanics.Select(mechanic => new MechanicDto { MechanicId = mechanic.Id, MechanicName = mechanic.Name });
+            => mechanics.Select(mechanic => new MechanicDto { Id = mechanic.Id, Name = mechanic.Name });
         public static IEnumerable<PublisherDto> ConvertToDto(this IEnumerable<Publisher> publishers)
-            => publishers.Select(publisher => new PublisherDto { Id = publisher.Id, PublisherName = publisher.Name });
+            => publishers.Select(publisher => new PublisherDto { Id = publisher.Id, Name = publisher.Name });
         public static IEnumerable<OrderItemInfoDto> ConvertToDto(this IEnumerable<OrderItem> orderItems)
             => orderItems.Select(oi => new OrderItemInfoDto
             {
@@ -108,6 +108,7 @@ namespace BoardGameShop.Api.Extensions
             {
                 Name = boardgame.Name,
                 Id = boardgame.Id,
+                TimeStamp = boardgame.TimeSpam,
                 Age = boardgame.Age,
                 Description = boardgame.Description,
                 Discount = boardgame.Discount,
@@ -118,11 +119,37 @@ namespace BoardGameShop.Api.Extensions
                 MinPlayer = boardgame.MinPlayer,
                 MinPlayTime = boardgame.MinPlayTime,
                 Quantity = boardgame.Quantity,
-                Artists = boardgame.Artists.Select(a => new BoardgameActionArtistDto { Name = a.FullName, Id = a.Id }).ToList(),
-                Authors = boardgame.Authors.Select(a => new BoardgameActionAuthorDto { Name = a.FullName, Id = a.Id }).ToList(),
-                Categories = boardgame.Categories.Select(c => new BoardgameActionCategoryDto { Name = c.Name, Id = c.Id }).ToList(),
-                Mechanics = boardgame.Mechanics.Select(m => new BoardgameActionMechanicDto { Name = m.Name, Id = m.Id }).ToList(),
-                Publisher = new BoardgameActionPublisherDto { Name = boardgame.PublisherNavigation.Name, Id = boardgame.PublisherNavigation.Id }
+                Artists = boardgame.Artists.Select(a => new ArtistDto { Name = a.FullName, Id = a.Id }).ToList(),
+                Authors = boardgame.Authors.Select(a => new AuthorDto { Name = a.FullName, Id = a.Id }).ToList(),
+                Categories = boardgame.Categories.Select(c => new CategoryDto { Name = c.Name, Id = c.Id }).ToList(),
+                Mechanics = boardgame.Mechanics.Select(m => new MechanicDto { Name = m.Name, Id = m.Id }).ToList(),
+                Publisher = new PublisherDto { Name = boardgame.PublisherNavigation.Name, Id = boardgame.PublisherNavigation.Id }
+            };
+        public static Boardgame ConvertToEntity(this BoardgameActionDto boardgameDto)
+            => new Boardgame
+            {
+                TimeSpam = boardgameDto.TimeStamp,
+                Age = boardgameDto.Age,
+                Description = boardgameDto.Description,
+                Discount = boardgameDto.Discount,
+                FullPrice = boardgameDto.FullPrice,
+                IsDeleted = boardgameDto.IsDeleted,
+                MaxPlayer = boardgameDto.MaxPlayer,
+                MaxPlayTime = boardgameDto.MaxPlayTime,
+                MinPlayer = boardgameDto.MinPlayer,
+                MinPlayTime = boardgameDto.MinPlayTime,
+                Name = boardgameDto.Name,
+                PublisherId = boardgameDto.Publisher.Id,
+                Quantity = boardgameDto.Quantity,
+                BoardgameArtists = boardgameDto.Artists
+                .Select(a => new BoardgameToArtist { ArtistId = a.Id, BoardgameId = boardgameDto.Id }).ToList(),
+                BoardgameAuthors = boardgameDto.Authors
+                .Select(a => new BoardgameToAuthor { AuthorId = a.Id, BoardgameId = boardgameDto.Id }).ToList(),
+                BoardgameCategories = boardgameDto.Categories
+                .Select(c => new BoardgameToCategory { CategoryId = c.Id, BoardgameId = boardgameDto.Id }).ToList(),
+                BoardgameMechanics = boardgameDto.Mechanics
+                .Select(m => new BoardgameToMechanic { MechanicId = m.Id, BoardgameId = boardgameDto.Id }).ToList(),
+
             };
     }
 }
